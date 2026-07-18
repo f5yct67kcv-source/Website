@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hero-Prototyp — Webdesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0806; --text:#efeae4; --text-muted:#9a8f83; --text-faint:#6b6055;
+  --accent:#dd8e4a; --accent-dim:#a86a2f;
+  --line:rgba(221,142,74,0.085);
+  --border:rgba(239,234,228,0.09); --border-strong:rgba(239,234,228,0.16);
+  --mono:'JetBrains Mono',monospace; --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
+  --container:1140px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 32px}
+h1{font-family:var(--disp);font-weight:600;line-height:1.04;letter-spacing:-0.015em}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,8,6,0.72);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{font-family:var(--mono);font-size:15px;font-weight:500;display:flex;align-items:center;gap:9px;color:var(--text)}
+.logo .mark{width:22px;height:22px;border:1px solid var(--accent);display:grid;place-items:center;font-size:11px;color:var(--accent)}
+.nav-links{display:flex;gap:30px;font-size:13.5px;color:var(--text-muted);font-family:var(--mono)}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{font-family:var(--mono);font-size:12.5px;padding:8px 16px;border:1px solid var(--accent);color:var(--accent);transition:background .15s,color .15s}
+.nav-cta:hover{background:var(--accent);color:var(--bg)}
+@media (max-width:760px){.nav-links{display:none}}
+
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:110px 0 60px;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;z-index:0;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 92% 88% at 34% 46%,#000 45%,transparent 92%);
+  -webkit-mask-image:radial-gradient(ellipse 92% 88% at 34% 46%,#000 45%,transparent 92%)}
+.hero-copy{position:relative;z-index:2;max-width:660px}
+.eyebrow{font-family:var(--mono);font-size:12.5px;color:var(--accent);display:inline-flex;align-items:center;letter-spacing:.01em;min-height:16px}
+.eyebrow .caret{width:8px;height:15px;background:var(--accent);margin-left:4px;display:inline-block;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+h1{font-size:clamp(2.6rem,6vw,4.3rem);margin:22px 0 24px}
+h1 .hl{color:var(--accent)}
+.lead{font-size:18.5px;color:var(--text-muted);max-width:520px;margin-bottom:36px}
+.btn{font-family:var(--mono);font-size:14.5px;font-weight:600;background:var(--accent);color:var(--bg);padding:16px 28px;display:inline-flex;align-items:center;gap:10px;transition:background .15s,transform .15s;border:1px solid var(--accent)}
+.btn:hover{background:var(--accent-dim);border-color:var(--accent-dim);transform:translateY(-2px)}
+.btn .arw{transition:transform .2s}
+.btn:hover .arw{transform:translateX(4px)}
+.trust{margin-top:44px;display:flex;gap:24px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--text-muted)}
+.trust span{display:inline-flex;align-items:center;gap:8px}
+.trust span::before{content:'';width:6px;height:6px;background:var(--accent)}
+@media (prefers-reduced-motion:reduce){.eyebrow .caret{animation:none}}
+</style>
+</head>
+<body>
+<header>
+  <nav class="wrap">
+    <div class="logo"><span class="mark">&lt;/&gt;</span>PLATZHALTER</div>
+    <div class="nav-links"><a href="#">angebot</a><a href="#">ablauf</a><a href="#">über mich</a></div>
+    <a href="#" class="nav-cta">kostenrechner</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="eyebrow"><span class="txt" id="typed"></span><span class="caret"></span></span>
+      <h1>Sauber gebaut.<br>Nicht <span class="hl">zusammen&shy;geklickt</span>.</h1>
+      <p class="lead">Individuelle Websites für Selbstständige und kleine Unternehmen. Ohne Baukasten, ohne unnötige Abhängigkeiten.</p>
+      <div class="cta-row">
+        <a href="#" class="btn">Website-Kosten berechnen <span class="arw">&rarr;</span></a>
+      </div>
+      <div class="trust">
+        <span>Fixangebot</span>
+        <span>Domain gehört dir</span>
+        <span>persönliche Betreuung</span>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  var el=document.getElementById('typed');
+  var full='individuell programmiert – kein Template';
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){el.textContent=full;return;}
+  var i=0;
+  function tick(){ el.textContent=full.slice(0,i); if(i++<full.length) setTimeout(tick,58); }
+  setTimeout(tick,350);
+})();
+</script>
+</body>
+</html>
