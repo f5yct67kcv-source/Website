@@ -140,6 +140,24 @@ h1 .hl{color:var(--accent)}
 .rcta .btn-big:hover{background:var(--accent-dim);border-color:var(--accent-dim);transform:translateY(-2px)}
 .rcta .btn-big .arw{transition:transform .2s}
 .rcta .btn-big:hover .arw{transform:translateX(4px)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:44px 0 40px}
+.foot{display:flex;flex-direction:column}
+.foot-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px}
+.foot .logo{font-family:var(--mono);font-size:15px;font-weight:500;display:flex;align-items:center;gap:9px;color:var(--text)}
+.foot .logo .mark{width:22px;height:22px;border:1px solid var(--accent);display:grid;place-items:center;font-size:11px;color:var(--accent)}
+.foot-links{display:flex;flex-wrap:wrap;gap:22px;font-family:var(--mono);font-size:12.5px;color:var(--text-faint)}
+.foot-links a:hover{color:var(--text-muted)}
+.foot-mid{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-top:26px;padding-top:24px;border-top:1px solid var(--border)}
+.foot-mid .tag{color:var(--text-muted);font-size:14px;line-height:1.5;max-width:560px}
+.foot-mid .mail{font-family:var(--mono);font-size:12px;color:var(--text-faint);display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.foot-mid .mail::before{content:"✉";color:var(--accent)}
+.foot-bottom{font-family:var(--mono);font-size:11.5px;color:var(--text-faint);margin-top:24px;padding-top:22px;border-top:1px solid var(--border)}
+@media(max-width:640px){
+  .foot-top{flex-direction:column;align-items:flex-start;gap:16px}
+  .foot-mid{flex-direction:column;align-items:flex-start}
+}
 </style>
 </head>
 <body>
@@ -221,6 +239,24 @@ h1 .hl{color:var(--accent)}
   <p>Beantworte einige Fragen zu Umfang, Inhalten und Funktionen. Danach erhältst du eine realistische Kosteneinschätzung – ohne Verkaufsgespräch und ohne „Preis auf Anfrage".</p>
   <a href="kostenrechner.html" class="btn-big">Kosten berechnen <span class="arw">&rarr;</span></a>
 </div></section>
+
+<footer><div class="wrap foot">
+  <div class="foot-top">
+    <div class="logo"><span class="mark">&lt;/&gt;</span>MARKENNAME</div>
+    <nav class="foot-links">
+      <a href="hero-referenzband.html">Startseite</a>
+      <a href="kostenrechner.html">Kostenrechner</a>
+      <a href="#">Kontakt</a>
+      <a href="#">Impressum</a>
+      <a href="#">Datenschutz</a>
+    </nav>
+  </div>
+  <div class="foot-mid">
+    <span class="tag">Websites für Selbstständige und kleine Unternehmen im Raum Solothurn, Olten und Umgebung.</span>
+    <span class="mail">E-Mail folgt</span>
+  </div>
+  <div class="foot-bottom">© 2026 MARKENNAME · individuell entwickelt · ohne Baukastensystem</div>
+</div></footer>
 
 <script>
 (function(){
