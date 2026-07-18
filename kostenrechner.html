@@ -113,6 +113,41 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
 .submit:hover{background:var(--accent-dim);border-color:var(--accent-dim)}
 .foothint{font-family:var(--mono);font-size:11px;color:var(--text-faint);text-align:center;margin-top:24px}
 .hidden{display:none}
+
+/* SO GEHT ES WEITER */
+.weiter{padding:80px 0 72px;border-top:1px solid var(--border)}
+.weiter .eb{font-family:var(--mono);font-size:12.5px;color:var(--accent);letter-spacing:.02em}
+.weiter h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.8vw,2.1rem);line-height:1.14;margin:14px 0 40px;max-width:640px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.stepx{background:var(--bg);padding:24px 22px 30px}
+.stepx .n{font-family:var(--mono);font-size:12px;color:var(--accent)}
+.stepx h3{font-family:var(--disp);font-weight:500;font-size:16px;line-height:1.25;margin-top:14px}
+@media(max-width:760px){.steps{grid-template-columns:1fr}}
+
+/* FAQ */
+.faq{padding:0 0 84px}
+.faq .eb{font-family:var(--mono);font-size:12.5px;color:var(--accent);letter-spacing:.02em}
+.faq h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.8vw,2.1rem);margin:14px 0 30px}
+.acc{border-top:1px solid var(--border)}
+.acc .item{border-bottom:1px solid var(--border)}
+.q-head{width:100%;display:flex;align-items:center;justify-content:space-between;gap:18px;text-align:left;background:none;border:none;color:var(--text);font-family:var(--disp);font-weight:500;font-size:16.5px;padding:20px 0;cursor:pointer;transition:color .15s}
+.q-head:hover{color:var(--accent)}
+.q-head .ic{font-family:var(--mono);color:var(--accent);font-size:18px;line-height:1;flex:0 0 auto;transition:transform .2s}
+.item.open .q-head .ic{transform:rotate(45deg)}
+.q-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ease}
+.item.open .q-body{grid-template-rows:1fr}
+.q-body .inner{overflow:hidden}
+.q-body p{padding:0 0 22px;color:var(--text-muted);font-size:15px;line-height:1.6;max-width:680px}
+@media(prefers-reduced-motion:reduce){.q-body{transition:none}}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:40px 0 44px}
+.foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.foot .logo{font-family:var(--mono);font-size:15px;font-weight:500;display:flex;align-items:center;gap:9px;color:var(--text)}
+.foot .logo .mark{width:22px;height:22px;border:1px solid var(--accent);display:grid;place-items:center;font-size:11px;color:var(--accent)}
+.foot-links{display:flex;gap:22px;font-family:var(--mono);font-size:12.5px;color:var(--text-faint)}
+.foot-links a:hover{color:var(--text-muted)}
+.foot-bottom{width:100%;font-family:var(--mono);font-size:11.5px;color:var(--text-faint);border-top:1px solid var(--border);padding-top:20px}
 </style>
 </head>
 <body>
@@ -174,6 +209,62 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     </div>
   </div>
 </div></section>
+
+<section class="weiter"><div class="wrap">
+  <span class="eb">// so geht es weiter</span>
+  <h2>Vom Richtwert zum verbindlichen Festpreis.</h2>
+  <div class="steps">
+    <div class="stepx"><span class="n">01</span><h3>Anfrage senden</h3></div>
+    <div class="stepx"><span class="n">02</span><h3>Angaben werden geprüft</h3></div>
+    <div class="stepx"><span class="n">03</span><h3>Kurze Rückmeldung oder Klärung</h3></div>
+    <div class="stepx"><span class="n">04</span><h3>Verbindliches Festpreisangebot</h3></div>
+  </div>
+</div></section>
+
+<section class="faq"><div class="wrap">
+  <span class="eb">// häufige fragen</span>
+  <h2>Fragen zum Preisrahmen</h2>
+  <div class="acc" id="acc">
+    <div class="item">
+      <button class="q-head" aria-expanded="false">Wie verbindlich ist der angezeigte Preisrahmen?<span class="ic">+</span></button>
+      <div class="q-body"><div class="inner"><p>Der Preisrahmen ist unverbindlich und basiert auf deinen Angaben. Nach einer persönlichen Prüfung erhältst du ein verbindliches Festpreisangebot.</p></div></div>
+    </div>
+    <div class="item">
+      <button class="q-head" aria-expanded="false">Was ist im Preis enthalten?<span class="ic">+</span></button>
+      <div class="q-body"><div class="inner"><p>Der genaue Umfang hängt von deiner Auswahl ab. Technische Basis, mobile Optimierung und das grundlegende SEO-Setup sind bei jeder Website enthalten. Optionale Leistungen werden separat ausgewiesen.</p></div></div>
+    </div>
+    <div class="item">
+      <button class="q-head" aria-expanded="false">Kann sich der Preis noch verändern?<span class="ic">+</span></button>
+      <div class="q-body"><div class="inner"><p>Ja, wenn sich Umfang, Inhalte oder Funktionen nachträglich ändern oder technische Besonderheiten erst bei der Prüfung sichtbar werden.</p></div></div>
+    </div>
+    <div class="item">
+      <button class="q-head" aria-expanded="false">Ist die Anfrage kostenpflichtig oder verbindlich?<span class="ic">+</span></button>
+      <div class="q-body"><div class="inner"><p>Nein. Die Anfrage ist kostenlos und unverbindlich. Erst nach der Prüfung erhältst du ein Festpreisangebot und entscheidest in Ruhe.</p></div></div>
+    </div>
+    <div class="item">
+      <button class="q-head" aria-expanded="false">Wann erhalte ich eine Rückmeldung?<span class="ic">+</span></button>
+      <div class="q-body"><div class="inner"><p>In der Regel erhältst du innerhalb von zwei Arbeitstagen eine persönliche Rückmeldung.</p></div></div>
+    </div>
+  </div>
+</div></section>
+
+<footer><div class="wrap foot">
+  <div class="logo"><span class="mark">&lt;/&gt;</span>PLATZHALTER</div>
+  <div class="foot-links"><a href="hero-referenzband.html">Startseite</a><a href="#">Impressum</a><a href="#">Datenschutz</a></div>
+  <div class="foot-bottom">© 2026 — Raum Solothurn / Olten · gebaut mit reinem Code, kein CMS</div>
+</div></footer>
+
+<script>
+(function(){
+  document.querySelectorAll('#acc .q-head').forEach(function(h){
+    h.addEventListener('click',function(){
+      var item=h.parentElement, open=item.classList.toggle('open');
+      h.setAttribute('aria-expanded', open?'true':'false');
+      h.querySelector('.ic').textContent = open?'–':'+';
+    });
+  });
+})();
+</script>
 
 <script>
 (function(){
