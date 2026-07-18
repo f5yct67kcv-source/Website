@@ -103,6 +103,12 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
 .notelist{list-style:none;margin-top:8px}
 .notelist li{padding-left:16px;position:relative;margin-top:6px;font-size:13px}
 .notelist li::before{content:'–';position:absolute;left:0;color:var(--accent)}
+.special-h{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);margin:24px 0 8px}
+.special-row{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px}
+.special-row:last-child{border-bottom:none}
+.special-row span:last-child{color:var(--accent);font-family:var(--mono);font-size:12px;white-space:nowrap}
+.res-cta{margin-top:30px}
+.res-cta p{color:var(--text);font-size:16.5px;margin-bottom:18px}
 .submit{display:block;width:100%;text-align:center;background:var(--accent);color:var(--bg);border:1px solid var(--accent);font-family:var(--mono);font-size:15px;font-weight:600;padding:16px;cursor:pointer;transition:background .15s}
 .submit:hover{background:var(--accent-dim);border-color:var(--accent-dim)}
 .foothint{font-family:var(--mono);font-size:11px;color:var(--text-faint);text-align:center;margin-top:24px}
@@ -142,18 +148,26 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
       </div>
 
       <div id="resArea" class="res hidden">
-        <div class="est">Geschätzter Preisrahmen</div>
-        <div class="num" id="resNum">CHF —</div>
-        <div class="typ" id="resTyp"></div>
-        <div class="sum" id="resSum"></div>
-        <div class="note" id="resNote"></div>
-        <div class="form-row">
-          <input type="text" id="cName" placeholder="Name">
-          <input type="email" id="cMail" placeholder="E-Mail">
-          <textarea id="cMsg" placeholder="Kurze Bemerkung zum Projekt (optional)"></textarea>
+        <div id="resView">
+          <div class="est">Dein geschätzter Preisrahmen</div>
+          <div class="num" id="resNum">CHF —</div>
+          <div class="sum" id="resSum"></div>
+          <div id="resSpecial" style="display:none"></div>
+          <div class="note" id="resNote"></div>
+          <div class="res-cta">
+            <p>Passt der Rahmen für dich? Dann sende mir deine Anfrage.</p>
+            <button class="submit" id="toContact">Anfrage senden →</button>
+          </div>
         </div>
-        <button class="submit" id="submitBtn">Projekt unverbindlich anfragen →</button>
-        <div class="foothint">unverbindlich · keine Verkaufsschlaufe · Antwort meist innert 1–2 Tagen</div>
+        <div id="contactView" class="hidden">
+          <div class="form-row">
+            <input type="text" id="cName" placeholder="Name">
+            <input type="email" id="cMail" placeholder="E-Mail">
+            <textarea id="cMsg" placeholder="Kurze Bemerkung zum Projekt (optional)"></textarea>
+          </div>
+          <button class="submit" id="submitBtn">Projekt unverbindlich anfragen →</button>
+          <div class="foothint">unverbindlich · keine Verkaufsschlaufe · Antwort meist innert 1–2 Tagen</div>
+        </div>
       </div>
 
       <div class="nav" id="navRow">
@@ -247,33 +261,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         {v:'branding', label:'Ich wünsche eine umfassendere Markenentwicklung'},
         {v:'unsure',   label:'Ich bin noch unsicher'},
       ]},
-    { key:'funktionen', hint:'Funktionen', type:'multi',
-      text:'Welche Funktionen brauchst du?',
-      sub:'Mehrfachauswahl möglich. Kontaktformular ist Standard.',
-      options:[
-        {v:'form',  label:'Kontaktformular'},
-        {v:'galerie', label:'Bildergalerie'},
-        {v:'maps',  label:'Google Maps / Standort'},
-        {v:'termin', label:'Terminbuchung'},
-        {v:'multilang', label:'Mehrsprachigkeit'},
-        {v:'other', label:'Sonstiges / weiss noch nicht'},
-      ]},
-    { key:'domain', hint:'Domain & Hosting', type:'single',
-      text:'Bestehen Domain und Hosting bereits?',
-      options:[
-        {v:'both', label:'Ja, beides vorhanden'},
-        {v:'part', label:'Teilweise'},
-        {v:'none', label:'Nein, brauche ich'},
-      ]},
   ];
-
-  const BASE = {
-    landing:{label:'Landingpage', lo:900,  hi:1200},
-    multi:  {label:'Firmenwebsite (3–5 Seiten)', lo:2200, hi:2800},
-    gross:  {label:'Umfangreiche Firmenwebsite', lo:3500, hi:6000},
-    rework: {label:'Bestehende Website modernisieren', lo:800, hi:2500,
-             note:'Bei bestehenden Seiten hängt der Aufwand stark vom Zustand ab — die Spanne ist bewusst weit. Den genauen Preis lege ich erst nach einer kurzen Prüfung fest.'},
-  };
 
   const answers = {};
   let cur = 0;
@@ -361,36 +349,20 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
   function chf(x){ return 'CHF ' + x.toLocaleString('de-CH'); }
 
   function compute(){
-    const base = BASE[answers.type] || BASE.landing;
-    let lo=base.lo, hi=base.hi;
-    const notes=[]; const isLanding = answers.type==='landing';
-    // Texte: Antwort wird gespeichert — noch keine konkreten Zuschläge definiert
-    // Bilder: keine automatische Foto/Video-Preisberechnung — separat offeriert
-    if(['partial','support','unsure'].includes(answers.bilder)){
-      notes.push('Foto- und Videoaufnahmen werden je nach Umfang, Standort und Anforderungen separat offeriert.');
-    }
-    // Logo & Auftritt: Antwort gespeichert — noch keine konkreten Zuschläge definiert
-    // Funktionen
-    const f = answers.funktionen||[];
-    if(f.includes('galerie')){ lo+=150; hi+=300; }
-    if(f.includes('maps')){ hi+=80; }
-    if(f.includes('termin')){ lo+=350; hi+=600; }
-    if(f.includes('multilang')){ lo+=500; hi+=900; }
-    if(f.includes('other')){ notes.push('Sonderfunktionen werden erst nach einer kurzen Prüfung beziffert.'); }
-    // Domain / Hosting
-    if(answers.domain!=='both'){ notes.push('Hosting läuft über meine Infrastruktur — Pauschale ca. CHF 150–200/Jahr (separat, nicht im Rahmen oben).'); }
-    if(base.note) notes.push(base.note);
-    return { lo:round50(lo), hi:round50(hi), notes, typeLabel:base.label };
+    // PLATZHALTER-Preisrahmen — endgültige Preislogik folgt später.
+    const special=[];
+    if(['partial','support','unsure'].includes(answers.bilder)) special.push('Professionelle Foto- und Videoaufnahmen');
+    if(answers.logo==='branding') special.push('Umfassende Markenentwicklung');
+    return { lo:1400, hi:1800, special };
   }
 
   const HUMAN = {
+    type:{landing:'Landingpage',multi:'Firmenwebsite · 3–5 Seiten',gross:'Umfangreiche Firmenwebsite',rework:'Bestehende Website modernisieren'},
     bestehend:{new:'Neubau',replace:'bestehende Seite wird ersetzt',rework:'bestehende Seite wird überarbeitet',partial:'einzelne Inhalte werden übernommen'},
     texte:{ready:'fertig, übernehmbar',partial:'teilweise (Überarbeitung/Ergänzung)',create:'sollen erstellt werden',unsure:'noch unsicher'},
     bilder:{have:'alles vorhanden',partial:'teilweise vorhanden',support:'Unterstützung gewünscht',unsure:'noch unsicher'},
     logo:{have:'vorhanden',partial:'teilweise',basic:'einfaches Logo gewünscht',branding:'Markenentwicklung gewünscht',unsure:'noch unsicher'},
-    domain:{both:'beides vorhanden',part:'teilweise',none:'noch nicht'},
     launch:{asap:'so schnell wie möglich',weeks:'4–6 Wochen',months:'2–3 Monate',flex:'kein fester Termin',date:'bestimmtes Datum'},
-    funktionen:{form:'Kontaktformular',galerie:'Bildergalerie',maps:'Google Maps',termin:'Terminbuchung',multilang:'Mehrsprachigkeit',other:'Sonstiges'},
     google:{gbp:'Google Business Profile',gsc:'Search Console',ga:'Analytics',done:'bereits eingerichtet',check:'prüfen gewünscht',none:'nichts davon'},
     betreuung:{managed:'Hosting & Betreuung abgeben',self:'selbst verwalten',support:'gelegentliche Unterstützung',advise:'Beratung gewünscht'},
   };
@@ -403,28 +375,28 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     stepLabel.innerHTML='<b>Fertig</b>'; stepHint.textContent='Einschätzung';
     progBar.style.width='100%';
     document.getElementById('resNum').textContent = `${chf(r.lo)} – ${chf(r.hi)}`;
-    document.getElementById('resTyp').innerHTML = `Empfohlen: <b>${r.typeLabel}</b>`;
-    const funcs = (answers.funktionen||[]).map(v=>HUMAN.funktionen[v]).join(', ') || '—';
     const gdienste = (answers.google||[]).map(v=>HUMAN.google[v]).join(', ') || '—';
     const betr = (answers.betreuung||[]).map(v=>HUMAN.betreuung[v]).join(', ') || '—';
     const rows = [
-      ['typ', r.typeLabel],
-      ['ausgangslage', HUMAN.bestehend[answers.bestehend]],
+      ['website-typ', HUMAN.type[answers.type]],
+      ['bestehende website', HUMAN.bestehend[answers.bestehend]],
+      ['bildmaterial', HUMAN.bilder[answers.bilder]],
       ['texte', HUMAN.texte[answers.texte]],
-      ['bilder', HUMAN.bilder[answers.bilder]],
       ['google-dienste', gdienste],
-      ['logo & gestaltung', HUMAN.logo[answers.logo]],
-      ['funktionen', funcs],
-      ['domain & hosting', HUMAN.domain[answers.domain]],
       ['betreuung', betr],
+      ['logo & auftritt', HUMAN.logo[answers.logo]],
       ['zeitrahmen', HUMAN.launch[answers.launch] + (answers.launchDate ? ' ('+answers.launchDate+')' : '')],
     ];
     if(answers.bestehendUrl) rows.splice(2,0,['aktuelle website', answers.bestehendUrl]);
     document.getElementById('resSum').innerHTML = rows.map(
       ([k,v])=>`<div class="row"><span>${k}</span><span>${v}</span></div>`).join('');
-    let noteHtml = '<b>Auf Basis deiner Angaben.</b> Nach einer kurzen Prüfung erhältst du ein verbindliches Festpreisangebot — kein „ab", das sich später verdoppelt.';
-    if(r.notes.length) noteHtml += '<ul class="notelist">'+r.notes.map(n=>`<li>${n}</li>`).join('')+'</ul>';
-    document.getElementById('resNote').innerHTML = noteHtml;
+    const sp = document.getElementById('resSpecial');
+    if(r.special.length){
+      sp.innerHTML = '<div class="special-h">Sonderleistungen</div>' +
+        r.special.map(s=>`<div class="special-row"><span>${s}</span><span>individuell zu prüfen</span></div>`).join('');
+      sp.style.display='block';
+    } else { sp.innerHTML=''; sp.style.display='none'; }
+    document.getElementById('resNote').innerHTML = 'Dieser unverbindliche Richtwert basiert auf deinen Angaben. Nach kurzer Prüfung erhältst du ein verbindliches Festpreisangebot.';
   }
 
   nextBtn.addEventListener('click',()=>{
@@ -432,6 +404,12 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     else { showResult(); }
   });
   backBtn.addEventListener('click',()=>{ if(cur>0){ cur--; render(); } });
+
+  document.getElementById('toContact').addEventListener('click',function(){
+    document.getElementById('resView').classList.add('hidden');
+    document.getElementById('contactView').classList.remove('hidden');
+    document.getElementById('cName').focus();
+  });
 
   document.getElementById('submitBtn').addEventListener('click',function(){
     const name=document.getElementById('cName').value.trim();
