@@ -269,3 +269,25 @@ ersetzen. Fragen:
 **Ausgabe (drei Dinge):** empfohlener Website-Typ · geschätzter Preisrahmen ·
 kurze Zusammenfassung der gewählten Leistungen. Danach CTA **„Projekt
 unverbindlich anfragen"**.
+
+---
+
+## 13. Offene Punkte fürs Gerüst (später, jetzt nicht polieren)
+
+Aus Review des Angebotsblocks:
+1. **Pfeile brauchen eine echte Funktion.** Später: ganze Zeile klickbar →
+   führt zum passenden Einstieg im Kostenrechner (vorbelegt). Keine rein
+   dekorativen Pfeile („Türgriff-Attrappen-Design").
+2. **„Bestehende Website überarbeiten" strategisch schärfen.** Redesign
+   einfacher statischer Seiten ist gut machbar; eine alte WordPress-Seite mit
+   Shop, Buchung, 46 Plugins und verschwundenem Entwickler kann zum schwarzen
+   Loch werden. Im Rechner früh trennen: *„optisch erneuern"* vs. *„Inhalte &
+   Technik vollständig übernehmen"* — oder bewusst *„ich prüfe zuerst, dann
+   Entscheid Überarbeitung oder Neubau"*.
+3. **Mobil-Darstellung Angebotsblock neu denken.** Nicht alles untereinander
+   fallen lassen (halber Screen pro Position). Mobil pro Angebot nur: Nummer ·
+   Titel · ein kurzer Satz · Pfeil. Zweite Erklärebene reduzieren/zusammenführen.
+
+**Über mich:** vermutlich kein grosser eigener Abschnitt nötig — ein kleiner
+persönlicher Teil im Warum-Block oder Footer genügt (Seite nicht unnötig
+verlängern).
