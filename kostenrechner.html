@@ -186,19 +186,21 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         {v:'rework',  label:'Ja, sie soll überarbeitet werden'},
         {v:'partial', label:'Ja, einzelne Inhalte sollen übernommen werden'},
       ]},
+    { key:'bilder', hint:'Bildmaterial', type:'single',
+      text:'Hast du passende Bilder für deine Website?',
+      sub:'Professionelle Foto- und Videoaufnahmen sind auf Wunsch möglich. Der Umfang wird separat besprochen und offeriert.',
+      options:[
+        {v:'have',    label:'Ja, alles Notwendige ist vorhanden'},
+        {v:'partial', label:'Teilweise – einzelne Bilder fehlen noch'},
+        {v:'support', label:'Nein, ich brauche Unterstützung bei den Bildern'},
+        {v:'unsure',  label:'Ich bin noch unsicher'},
+      ]},
     { key:'texte', hint:'Texte', type:'single',
       text:'Sind die Texte vorhanden?',
       options:[
         {v:'full', label:'Ja, vollständig'},
         {v:'part', label:'Teilweise / als Stichworte'},
         {v:'none', label:'Nein, müssen erstellt werden'},
-      ]},
-    { key:'bilder', hint:'Bilder', type:'single',
-      text:'Sind passende Bilder vorhanden?',
-      options:[
-        {v:'yes',  label:'Ja'},
-        {v:'part', label:'Teilweise'},
-        {v:'no',   label:'Nein'},
       ]},
     { key:'logo', hint:'Logo & Gestaltung', type:'single',
       text:'Gibt es bereits Logo und Gestaltung?',
@@ -320,9 +322,10 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     // Texte
     if(answers.texte==='part'){ lo+=150; hi+=250; }
     if(answers.texte==='none'){ if(isLanding){lo+=250;hi+=350;} else {lo+=500;hi+=700;} }
-    // Bilder
-    if(answers.bilder==='part'){ lo+=75; hi+=125; }
-    if(answers.bilder==='no'){ lo+=125; hi+=200; }
+    // Bilder: keine automatische Foto/Video-Preisberechnung — separat offeriert
+    if(['partial','support','unsure'].includes(answers.bilder)){
+      notes.push('Foto- und Videoaufnahmen werden je nach Umfang, Standort und Anforderungen separat offeriert.');
+    }
     // Logo
     if(answers.logo==='part'){ lo+=100; hi+=200; }
     if(answers.logo==='no'){ lo+=250; hi+=450; }
@@ -342,7 +345,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
   const HUMAN = {
     bestehend:{new:'Neubau',replace:'bestehende Seite wird ersetzt',rework:'bestehende Seite wird überarbeitet',partial:'einzelne Inhalte werden übernommen'},
     texte:{full:'vollständig vorhanden',part:'teilweise / Stichworte',none:'müssen erstellt werden'},
-    bilder:{yes:'vorhanden',part:'teilweise',no:'nicht vorhanden'},
+    bilder:{have:'alles vorhanden',partial:'teilweise vorhanden',support:'Unterstützung gewünscht',unsure:'noch unsicher'},
     logo:{yes:'vorhanden',part:'teilweise',no:'nicht vorhanden'},
     domain:{both:'beides vorhanden',part:'teilweise',none:'noch nicht'},
     zeit:{asap:'so schnell wie möglich',soon:'1–3 Monate',flex:'kein fester Termin'},
