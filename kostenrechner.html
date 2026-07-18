@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kostenrechner — Webdesign</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0806; --surface:#14100c; --surface-2:#1d1712;
+  --text:#efeae4; --text-muted:#9a8f83; --text-faint:#6b6055;
+  --accent:#dd8e4a; --accent-dim:#a86a2f;
+  --line:rgba(221,142,74,0.10);
+  --border:rgba(239,234,228,0.09); --border-strong:rgba(239,234,228,0.16);
+  --mono:'JetBrains Mono',monospace; --disp:'Space Grotesk',sans-serif; --body:'Inter',sans-serif;
+  --container:1140px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:var(--container);margin:0 auto;padding:0 32px}
+h1,h2{font-family:var(--disp);font-weight:600;letter-spacing:-.015em}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* NAV */
+header{border-bottom:1px solid var(--border)}
+nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66px}
+.logo{font-family:var(--mono);font-size:15px;font-weight:500;display:flex;align-items:center;gap:9px;color:var(--text)}
+.logo .mark{width:22px;height:22px;border:1px solid var(--accent);display:grid;place-items:center;font-size:11px;color:var(--accent)}
+.back{font-family:var(--mono);font-size:12.5px;color:var(--text-muted);transition:color .15s}
+.back:hover{color:var(--text)}
+
+/* INTRO */
+.intro{padding:64px 0 8px}
+.intro .eb{font-family:var(--mono);font-size:12.5px;color:var(--accent);letter-spacing:.02em}
+.intro h1{font-size:clamp(2rem,4vw,2.9rem);line-height:1.08;margin:16px 0 14px;max-width:720px}
+.intro h1 .hl{color:var(--accent)}
+.intro p{color:var(--text-muted);font-size:16px;max-width:560px}
+
+/* PANEL */
+.calc{padding:40px 0 96px}
+.panel{max-width:720px;margin:0 auto;background:var(--surface);border:1px solid var(--border-strong);position:relative}
+.panel::before,.panel::after{content:'';position:absolute;width:9px;height:9px;background:var(--accent);z-index:2}
+.panel::before{top:-1px;left:-1px}.panel::after{bottom:-1px;right:-1px}
+.chrome{display:flex;align-items:center;gap:8px;padding:13px 18px;border-bottom:1px solid var(--border);background:var(--surface-2)}
+.chrome .d{width:9px;height:9px;border:1px solid var(--border-strong)}
+.chrome .t{font-family:var(--mono);font-size:12px;color:var(--text-faint);margin-left:6px}
+.body{padding:38px 40px 34px}
+@media(max-width:600px){.body{padding:30px 22px}}
+
+.prog{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--text-faint);margin-bottom:9px}
+.prog .step b{color:var(--accent);font-weight:500}
+.bar{height:3px;background:var(--border);margin-bottom:30px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:14%;transition:width .35s ease}
+
+.q{font-family:var(--disp);font-size:22px;font-weight:600;line-height:1.25;margin-bottom:6px;min-height:auto}
+.qhint{font-family:var(--mono);font-size:11.5px;color:var(--text-faint);margin-bottom:22px}
+.opts{display:flex;flex-direction:column;gap:10px;margin-bottom:30px}
+.opt{display:flex;align-items:center;gap:13px;text-align:left;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:15px 17px;font-family:var(--body);font-size:15px;cursor:pointer;transition:border-color .15s,background .15s}
+.opt:hover{border-color:var(--accent)}
+.opt.sel{border-color:var(--accent);background:rgba(221,142,74,0.07)}
+.opt .box{width:16px;height:16px;border:1px solid var(--text-faint);flex:0 0 auto;display:grid;place-items:center;transition:border-color .15s,background .15s}
+.opt .box::after{content:'';width:8px;height:8px;background:var(--accent);transform:scale(0);transition:transform .12s}
+.opt.sel .box{border-color:var(--accent)}
+.opt.sel .box::after{transform:scale(1)}
+.opt.multi .box{border-radius:0}
+.opt small{display:block;color:var(--text-muted);font-size:12.5px;margin-top:2px}
+
+.form-row{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.form-row input,.form-row textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:13px 15px;font-family:var(--body);font-size:14.5px}
+.form-row textarea{resize:vertical;min-height:74px}
+.form-row input:focus,.form-row textarea:focus{border-color:var(--accent);outline:none}
+
+.nav{display:flex;justify-content:space-between;align-items:center;gap:14px}
+.nav button{font-family:var(--mono);font-size:13px;padding:12px 22px;cursor:pointer;border:1px solid transparent}
+.back-btn{background:none;border:1px solid var(--border-strong);color:var(--text-muted)}
+.back-btn:hover{color:var(--text);border-color:var(--text)}
+.next-btn{background:var(--accent);border:1px solid var(--accent);color:var(--bg);font-weight:600}
+.next-btn:hover:not(:disabled){background:var(--accent-dim);border-color:var(--accent-dim)}
+.next-btn:disabled{opacity:.4;cursor:not-allowed}
+
+/* RESULT */
+.res .est{font-family:var(--mono);font-size:12px;color:var(--text-faint);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.res .num{font-family:var(--disp);font-size:clamp(2.2rem,6vw,3rem);color:var(--accent);font-weight:600;line-height:1;margin-bottom:6px}
+.res .typ{font-size:15px;color:var(--text-muted);margin-bottom:26px}
+.res .typ b{color:var(--text);font-weight:500}
+.sum{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:6px 0;margin-bottom:20px}
+.sum .row{display:flex;justify-content:space-between;gap:16px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px}
+.sum .row:last-child{border-bottom:none}
+.sum .row span:first-child{color:var(--text-faint);font-family:var(--mono);font-size:12px}
+.sum .row span:last-child{color:var(--text);text-align:right}
+.note{background:rgba(221,142,74,0.05);border:1px solid var(--line);padding:15px 17px;margin-bottom:26px;font-size:13.5px;color:var(--text-muted);line-height:1.55}
+.note b{color:var(--text);font-weight:500}
+.notelist{list-style:none;margin-top:8px}
+.notelist li{padding-left:16px;position:relative;margin-top:6px;font-size:13px}
+.notelist li::before{content:'–';position:absolute;left:0;color:var(--accent)}
+.submit{display:block;width:100%;text-align:center;background:var(--accent);color:var(--bg);border:1px solid var(--accent);font-family:var(--mono);font-size:15px;font-weight:600;padding:16px;cursor:pointer;transition:background .15s}
+.submit:hover{background:var(--accent-dim);border-color:var(--accent-dim)}
+.foothint{font-family:var(--mono);font-size:11px;color:var(--text-faint);text-align:center;margin-top:24px}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header>
+  <nav class="wrap">
+    <div class="logo"><span class="mark">&lt;/&gt;</span>PLATZHALTER</div>
+    <a href="hero-referenzband.html" class="back">&larr; zurück zur Startseite</a>
+  </nav>
+</header>
+
+<section class="intro"><div class="wrap">
+  <span class="eb">// kostenrechner</span>
+  <h1>Was kostet deine Website? <span class="hl">In wenigen Schritten.</span></h1>
+  <p>Beantworte ein paar kurze Fragen zu Umfang, Inhalten und Funktionen. Am Ende erhältst du eine realistische Kosteneinschätzung — ohne Verkaufsgespräch und ohne „Preis auf Anfrage".</p>
+</div></section>
+
+<section class="calc"><div class="wrap">
+  <div class="panel">
+    <div class="chrome"><span class="d"></span><span class="d"></span><span class="d"></span><span class="t">kostenrechner.js</span></div>
+    <div class="body">
+
+      <div class="prog">
+        <span class="step" id="stepLabel">Schritt <b>1</b> / 7</span>
+        <span id="stepHint">Website-Typ</span>
+      </div>
+      <div class="bar"><i id="progBar"></i></div>
+
+      <div id="qArea">
+        <div class="q" id="qText"></div>
+        <div class="qhint" id="qSub"></div>
+        <div class="opts" id="opts"></div>
+      </div>
+
+      <div id="resArea" class="res hidden">
+        <div class="est">Geschätzter Preisrahmen</div>
+        <div class="num" id="resNum">CHF —</div>
+        <div class="typ" id="resTyp"></div>
+        <div class="sum" id="resSum"></div>
+        <div class="note" id="resNote"></div>
+        <div class="form-row">
+          <input type="text" id="cName" placeholder="Name">
+          <input type="email" id="cMail" placeholder="E-Mail">
+          <textarea id="cMsg" placeholder="Kurze Bemerkung zum Projekt (optional)"></textarea>
+        </div>
+        <button class="submit" id="submitBtn">Projekt unverbindlich anfragen →</button>
+        <div class="foothint">unverbindlich · keine Verkaufsschlaufe · Antwort meist innert 1–2 Tagen</div>
+      </div>
+
+      <div class="nav" id="navRow">
+        <button class="back-btn" id="backBtn" style="visibility:hidden">← Zurück</button>
+        <button class="next-btn" id="nextBtn" disabled>Weiter →</button>
+      </div>
+
+    </div>
+  </div>
+</div></section>
+
+<script>
+(function(){
+  const QUESTIONS = [
+    { key:'type', hint:'Website-Typ', type:'single',
+      text:'Was brauchst du?',
+      sub:'Grobe Einordnung — Details klären wir danach.',
+      options:[
+        {v:'landing', label:'Landingpage', desc:'Eine fokussierte Seite'},
+        {v:'multi',   label:'Firmenwebsite · 3–5 Seiten', desc:'Mehrere Unterseiten'},
+        {v:'gross',   label:'Grössere Firmenwebsite', desc:'Mehr Umfang / Sonderfälle'},
+        {v:'rework',  label:'Bestehende Website überarbeiten', desc:'Relaunch / Modernisierung'},
+      ]},
+    { key:'texte', hint:'Texte', type:'single',
+      text:'Sind die Texte vorhanden?',
+      options:[
+        {v:'full', label:'Ja, vollständig'},
+        {v:'part', label:'Teilweise / als Stichworte'},
+        {v:'none', label:'Nein, müssen erstellt werden'},
+      ]},
+    { key:'bilder', hint:'Bilder', type:'single',
+      text:'Sind passende Bilder vorhanden?',
+      options:[
+        {v:'yes',  label:'Ja'},
+        {v:'part', label:'Teilweise'},
+        {v:'no',   label:'Nein'},
+      ]},
+    { key:'logo', hint:'Logo & Gestaltung', type:'single',
+      text:'Gibt es bereits Logo und Gestaltung?',
+      options:[
+        {v:'yes',  label:'Ja, alles vorhanden'},
+        {v:'part', label:'Teilweise'},
+        {v:'no',   label:'Nein'},
+      ]},
+    { key:'funktionen', hint:'Funktionen', type:'multi',
+      text:'Welche Funktionen brauchst du?',
+      sub:'Mehrfachauswahl möglich. Kontaktformular ist Standard.',
+      options:[
+        {v:'form',  label:'Kontaktformular'},
+        {v:'galerie', label:'Bildergalerie'},
+        {v:'maps',  label:'Google Maps / Standort'},
+        {v:'termin', label:'Terminbuchung'},
+        {v:'multilang', label:'Mehrsprachigkeit'},
+        {v:'other', label:'Sonstiges / weiss noch nicht'},
+      ]},
+    { key:'domain', hint:'Domain & Hosting', type:'single',
+      text:'Bestehen Domain und Hosting bereits?',
+      options:[
+        {v:'both', label:'Ja, beides vorhanden'},
+        {v:'part', label:'Teilweise'},
+        {v:'none', label:'Nein, brauche ich'},
+      ]},
+    { key:'zeit', hint:'Zeitrahmen', type:'single',
+      text:'Wie schnell soll die Website live sein?',
+      options:[
+        {v:'asap', label:'So schnell wie möglich'},
+        {v:'soon', label:'In den nächsten 1–3 Monaten'},
+        {v:'flex', label:'Kein fester Termin'},
+      ]},
+  ];
+
+  const BASE = {
+    landing:{label:'Landingpage', lo:900,  hi:1200},
+    multi:  {label:'Firmenwebsite (3–5 Seiten)', lo:2200, hi:2800},
+    gross:  {label:'Grössere Firmenwebsite', lo:3500, hi:6000},
+    rework: {label:'Bestehende Website überarbeiten', lo:800, hi:2500,
+             note:'Bei bestehenden Seiten hängt der Aufwand stark vom Zustand ab — die Spanne ist bewusst weit. Den genauen Preis lege ich erst nach einer kurzen Prüfung fest.'},
+  };
+
+  const answers = {};
+  let cur = 0;
+
+  const qText=document.getElementById('qText'), qSub=document.getElementById('qSub'),
+        optsEl=document.getElementById('opts'), stepLabel=document.getElementById('stepLabel'),
+        stepHint=document.getElementById('stepHint'), progBar=document.getElementById('progBar'),
+        backBtn=document.getElementById('backBtn'), nextBtn=document.getElementById('nextBtn'),
+        qArea=document.getElementById('qArea'), resArea=document.getElementById('resArea');
+
+  function answered(q){
+    const a = answers[q.key];
+    if(q.type==='multi') return Array.isArray(a) && a.length>0;
+    return !!a;
+  }
+
+  function render(){
+    const q = QUESTIONS[cur];
+    stepLabel.innerHTML = `Schritt <b>${cur+1}</b> / ${QUESTIONS.length}`;
+    stepHint.textContent = q.hint;
+    progBar.style.width = `${((cur+1)/(QUESTIONS.length+1))*100}%`;
+    qText.textContent = q.text;
+    qSub.textContent = q.sub || '';
+    qSub.style.display = q.sub ? 'block' : 'none';
+    optsEl.innerHTML='';
+    q.options.forEach(opt=>{
+      const b=document.createElement('button');
+      b.className='opt'+(q.type==='multi'?' multi':'');
+      const sel = q.type==='multi'
+        ? (answers[q.key]||[]).includes(opt.v)
+        : answers[q.key]===opt.v;
+      if(sel) b.classList.add('sel');
+      b.innerHTML = `<span class="box"></span><span>${opt.label}${opt.desc?`<small>${opt.desc}</small>`:''}</span>`;
+      b.addEventListener('click',()=>{
+        if(q.type==='multi'){
+          const arr = answers[q.key] ? [...answers[q.key]] : [];
+          const i = arr.indexOf(opt.v);
+          if(i>=0) arr.splice(i,1); else arr.push(opt.v);
+          answers[q.key]=arr;
+          render();
+        } else {
+          answers[q.key]=opt.v;
+          [...optsEl.children].forEach(c=>c.classList.remove('sel'));
+          b.classList.add('sel');
+          nextBtn.disabled=false;
+        }
+      });
+      optsEl.appendChild(b);
+    });
+    backBtn.style.visibility = cur===0 ? 'hidden':'visible';
+    nextBtn.disabled = !answered(q);
+    nextBtn.textContent = cur===QUESTIONS.length-1 ? 'Ergebnis anzeigen →' : 'Weiter →';
+  }
+
+  function round50(x){ return Math.round(x/50)*50; }
+  function chf(x){ return 'CHF ' + x.toLocaleString('de-CH'); }
+
+  function compute(){
+    const base = BASE[answers.type] || BASE.landing;
+    let lo=base.lo, hi=base.hi;
+    const notes=[]; const isLanding = answers.type==='landing';
+    // Texte
+    if(answers.texte==='part'){ lo+=150; hi+=250; }
+    if(answers.texte==='none'){ if(isLanding){lo+=250;hi+=350;} else {lo+=500;hi+=700;} }
+    // Bilder
+    if(answers.bilder==='part'){ lo+=75; hi+=125; }
+    if(answers.bilder==='no'){ lo+=125; hi+=200; }
+    // Logo
+    if(answers.logo==='part'){ lo+=100; hi+=200; }
+    if(answers.logo==='no'){ lo+=250; hi+=450; }
+    // Funktionen
+    const f = answers.funktionen||[];
+    if(f.includes('galerie')){ lo+=150; hi+=300; }
+    if(f.includes('maps')){ hi+=80; }
+    if(f.includes('termin')){ lo+=350; hi+=600; }
+    if(f.includes('multilang')){ lo+=500; hi+=900; }
+    if(f.includes('other')){ notes.push('Sonderfunktionen werden erst nach einer kurzen Prüfung beziffert.'); }
+    // Domain / Hosting
+    if(answers.domain!=='both'){ notes.push('Hosting läuft über meine Infrastruktur — Pauschale ca. CHF 150–200/Jahr (separat, nicht im Rahmen oben).'); }
+    if(base.note) notes.push(base.note);
+    return { lo:round50(lo), hi:round50(hi), notes, typeLabel:base.label };
+  }
+
+  const HUMAN = {
+    texte:{full:'vollständig vorhanden',part:'teilweise / Stichworte',none:'müssen erstellt werden'},
+    bilder:{yes:'vorhanden',part:'teilweise',no:'nicht vorhanden'},
+    logo:{yes:'vorhanden',part:'teilweise',no:'nicht vorhanden'},
+    domain:{both:'beides vorhanden',part:'teilweise',none:'noch nicht'},
+    zeit:{asap:'so schnell wie möglich',soon:'1–3 Monate',flex:'kein fester Termin'},
+    funktionen:{form:'Kontaktformular',galerie:'Bildergalerie',maps:'Google Maps',termin:'Terminbuchung',multilang:'Mehrsprachigkeit',other:'Sonstiges'},
+  };
+
+  function showResult(){
+    const r = compute();
+    qArea.classList.add('hidden');
+    document.getElementById('navRow').classList.add('hidden');
+    resArea.classList.remove('hidden');
+    stepLabel.innerHTML='<b>Fertig</b>'; stepHint.textContent='Einschätzung';
+    progBar.style.width='100%';
+    document.getElementById('resNum').textContent = `${chf(r.lo)} – ${chf(r.hi)}`;
+    document.getElementById('resTyp').innerHTML = `Empfohlen: <b>${r.typeLabel}</b>`;
+    const funcs = (answers.funktionen||[]).map(v=>HUMAN.funktionen[v]).join(', ') || '—';
+    const rows = [
+      ['typ', r.typeLabel],
+      ['texte', HUMAN.texte[answers.texte]],
+      ['bilder', HUMAN.bilder[answers.bilder]],
+      ['logo & gestaltung', HUMAN.logo[answers.logo]],
+      ['funktionen', funcs],
+      ['domain & hosting', HUMAN.domain[answers.domain]],
+      ['zeitrahmen', HUMAN.zeit[answers.zeit]],
+    ];
+    document.getElementById('resSum').innerHTML = rows.map(
+      ([k,v])=>`<div class="row"><span>${k}</span><span>${v}</span></div>`).join('');
+    let noteHtml = '<b>Auf Basis deiner Angaben.</b> Nach einer kurzen Prüfung erhältst du ein verbindliches Festpreisangebot — kein „ab", das sich später verdoppelt.';
+    if(r.notes.length) noteHtml += '<ul class="notelist">'+r.notes.map(n=>`<li>${n}</li>`).join('')+'</ul>';
+    document.getElementById('resNote').innerHTML = noteHtml;
+  }
+
+  nextBtn.addEventListener('click',()=>{
+    if(cur < QUESTIONS.length-1){ cur++; render(); }
+    else { showResult(); }
+  });
+  backBtn.addEventListener('click',()=>{ if(cur>0){ cur--; render(); } });
+
+  document.getElementById('submitBtn').addEventListener('click',function(){
+    const name=document.getElementById('cName').value.trim();
+    const mail=document.getElementById('cMail').value.trim();
+    if(!name||!mail){ alert('Bitte Name und E-Mail angeben, damit ich mich melden kann.'); return; }
+    this.textContent='Danke — ich melde mich!';
+    this.disabled=true; this.style.opacity=.7;
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
