@@ -68,6 +68,11 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
 .opt.sel .box::after{transform:scale(1)}
 .opt.multi .box{border-radius:0}
 .opt small{display:block;color:var(--text-muted);font-size:12.5px;margin-top:2px}
+.cond{margin:-6px 0 30px}
+.cond label{display:block;font-family:var(--mono);font-size:12px;color:var(--text-muted);margin-bottom:9px}
+.cond input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-family:var(--body);font-size:14.5px}
+.cond input:focus{border-color:var(--accent);outline:none}
+.cond .h{font-family:var(--mono);font-size:11px;color:var(--text-faint);margin-top:8px}
 
 .form-row{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
 .form-row input,.form-row textarea{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:13px 15px;font-family:var(--body);font-size:14.5px}
@@ -132,6 +137,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         <div class="q" id="qText"></div>
         <div class="qhint" id="qSub"></div>
         <div class="opts" id="opts"></div>
+        <div class="cond hidden" id="cond"></div>
       </div>
 
       <div id="resArea" class="res hidden">
@@ -169,6 +175,16 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         {v:'multi',   label:'Firmenwebsite · 3–5 Seiten', desc:'Zum Beispiel Startseite, Leistungen, Über uns und Kontakt.'},
         {v:'gross',   label:'Umfangreiche Firmenwebsite', desc:'Mehr als fünf Seiten, mehrere Bereiche oder besondere Anforderungen.'},
         {v:'rework',  label:'Bestehende Website modernisieren', desc:'Eine vorhandene Seite optisch, strukturell oder technisch überarbeiten.'},
+      ]},
+    { key:'bestehend', hint:'Ausgangslage', type:'single',
+      text:'Gibt es bereits eine Website?',
+      conditional:{ when:function(a){return a==='replace'||a==='rework'||a==='partial';}, store:'bestehendUrl',
+        label:'Wie lautet die aktuelle Website?', hint:'So kann ich den bestehenden Umfang später kurz prüfen.', placeholder:'https://…' },
+      options:[
+        {v:'new',     label:'Nein, ich starte neu'},
+        {v:'replace', label:'Ja, sie soll vollständig ersetzt werden'},
+        {v:'rework',  label:'Ja, sie soll überarbeitet werden'},
+        {v:'partial', label:'Ja, einzelne Inhalte sollen übernommen werden'},
       ]},
     { key:'texte', hint:'Texte', type:'single',
       text:'Sind die Texte vorhanden?',
@@ -233,12 +249,25 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         optsEl=document.getElementById('opts'), stepLabel=document.getElementById('stepLabel'),
         stepHint=document.getElementById('stepHint'), progBar=document.getElementById('progBar'),
         backBtn=document.getElementById('backBtn'), nextBtn=document.getElementById('nextBtn'),
-        qArea=document.getElementById('qArea'), resArea=document.getElementById('resArea');
+        qArea=document.getElementById('qArea'), resArea=document.getElementById('resArea'),
+        condEl=document.getElementById('cond');
 
   function answered(q){
     const a = answers[q.key];
     if(q.type==='multi') return Array.isArray(a) && a.length>0;
     return !!a;
+  }
+
+  function renderCond(q){
+    if(!q.conditional || !q.conditional.when(answers[q.key])){
+      condEl.classList.add('hidden'); condEl.innerHTML=''; return;
+    }
+    const c=q.conditional;
+    condEl.classList.remove('hidden');
+    condEl.innerHTML = `<label>${c.label}</label><input type="url" id="condInput" placeholder="${c.placeholder||''}"><div class="h">${c.hint||''}</div>`;
+    const inp=document.getElementById('condInput');
+    inp.value = answers[c.store]||'';
+    inp.addEventListener('input',()=>{ answers[c.store]=inp.value.trim(); });
   }
 
   function render(){
@@ -270,10 +299,12 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
           [...optsEl.children].forEach(c=>c.classList.remove('sel'));
           b.classList.add('sel');
           nextBtn.disabled=false;
+          if(q.conditional) renderCond(q);
         }
       });
       optsEl.appendChild(b);
     });
+    renderCond(q);
     backBtn.style.visibility = cur===0 ? 'hidden':'visible';
     nextBtn.disabled = !answered(q);
     nextBtn.textContent = cur===QUESTIONS.length-1 ? 'Ergebnis anzeigen →' : 'Weiter →';
@@ -309,6 +340,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
   }
 
   const HUMAN = {
+    bestehend:{new:'Neubau',replace:'bestehende Seite wird ersetzt',rework:'bestehende Seite wird überarbeitet',partial:'einzelne Inhalte werden übernommen'},
     texte:{full:'vollständig vorhanden',part:'teilweise / Stichworte',none:'müssen erstellt werden'},
     bilder:{yes:'vorhanden',part:'teilweise',no:'nicht vorhanden'},
     logo:{yes:'vorhanden',part:'teilweise',no:'nicht vorhanden'},
@@ -329,6 +361,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     const funcs = (answers.funktionen||[]).map(v=>HUMAN.funktionen[v]).join(', ') || '—';
     const rows = [
       ['typ', r.typeLabel],
+      ['ausgangslage', HUMAN.bestehend[answers.bestehend]],
       ['texte', HUMAN.texte[answers.texte]],
       ['bilder', HUMAN.bilder[answers.bilder]],
       ['logo & gestaltung', HUMAN.logo[answers.logo]],
@@ -336,6 +369,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
       ['domain & hosting', HUMAN.domain[answers.domain]],
       ['zeitrahmen', HUMAN.zeit[answers.zeit]],
     ];
+    if(answers.bestehendUrl) rows.splice(2,0,['aktuelle website', answers.bestehendUrl]);
     document.getElementById('resSum').innerHTML = rows.map(
       ([k,v])=>`<div class="row"><span>${k}</span><span>${v}</span></div>`).join('');
     let noteHtml = '<b>Auf Basis deiner Angaben.</b> Nach einer kurzen Prüfung erhältst du ein verbindliches Festpreisangebot — kein „ab", das sich später verdoppelt.';
