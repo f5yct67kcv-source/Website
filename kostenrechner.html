@@ -216,6 +216,15 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         {v:'check', label:'Ich bin unsicher – bitte prüfen'},
         {v:'none',  label:'Ich benötige nichts davon'},
       ]},
+    { key:'betreuung', hint:'Betreuung nach Launch', type:'multi', exclusive:['self','advise'],
+      text:'Wie möchtest du deine Website nach dem Launch betreuen?',
+      sub:'Hosting und technische Betreuung können gegen eine jährliche Pauschale übernommen werden. Inhaltliche Änderungen werden separat oder über ein klar definiertes Betreuungspaket abgerechnet.',
+      options:[
+        {v:'managed', label:'Ich möchte Hosting und technische Betreuung abgeben'},
+        {v:'self',    label:'Ich kümmere mich selbst um Hosting und Verwaltung'},
+        {v:'support', label:'Ich brauche gelegentlich Unterstützung bei Änderungen'},
+        {v:'advise',  label:'Ich bin noch unsicher und möchte beraten werden'},
+      ]},
     { key:'logo', hint:'Logo & Gestaltung', type:'single',
       text:'Gibt es bereits Logo und Gestaltung?',
       options:[
@@ -370,6 +379,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     zeit:{asap:'so schnell wie möglich',soon:'1–3 Monate',flex:'kein fester Termin'},
     funktionen:{form:'Kontaktformular',galerie:'Bildergalerie',maps:'Google Maps',termin:'Terminbuchung',multilang:'Mehrsprachigkeit',other:'Sonstiges'},
     google:{gbp:'Google Business Profile',gsc:'Search Console',ga:'Analytics',done:'bereits eingerichtet',check:'prüfen gewünscht',none:'nichts davon'},
+    betreuung:{managed:'Hosting & Betreuung abgeben',self:'selbst verwalten',support:'gelegentliche Unterstützung',advise:'Beratung gewünscht'},
   };
 
   function showResult(){
@@ -383,6 +393,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     document.getElementById('resTyp').innerHTML = `Empfohlen: <b>${r.typeLabel}</b>`;
     const funcs = (answers.funktionen||[]).map(v=>HUMAN.funktionen[v]).join(', ') || '—';
     const gdienste = (answers.google||[]).map(v=>HUMAN.google[v]).join(', ') || '—';
+    const betr = (answers.betreuung||[]).map(v=>HUMAN.betreuung[v]).join(', ') || '—';
     const rows = [
       ['typ', r.typeLabel],
       ['ausgangslage', HUMAN.bestehend[answers.bestehend]],
@@ -392,6 +403,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
       ['logo & gestaltung', HUMAN.logo[answers.logo]],
       ['funktionen', funcs],
       ['domain & hosting', HUMAN.domain[answers.domain]],
+      ['betreuung', betr],
       ['zeitrahmen', HUMAN.zeit[answers.zeit]],
     ];
     if(answers.bestehendUrl) rows.splice(2,0,['aktuelle website', answers.bestehendUrl]);
