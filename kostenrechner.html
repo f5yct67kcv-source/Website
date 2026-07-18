@@ -196,11 +196,13 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         {v:'unsure',  label:'Ich bin noch unsicher'},
       ]},
     { key:'texte', hint:'Texte', type:'single',
-      text:'Sind die Texte vorhanden?',
+      text:'Sind die Texte für deine Website bereits vorhanden?',
+      sub:'Vorhandene Texte werden kurz auf Struktur, Verständlichkeit und Eignung für die Website geprüft.',
       options:[
-        {v:'full', label:'Ja, vollständig'},
-        {v:'part', label:'Teilweise / als Stichworte'},
-        {v:'none', label:'Nein, müssen erstellt werden'},
+        {v:'ready',   label:'Ja, die Texte sind fertig und können übernommen werden'},
+        {v:'partial', label:'Teilweise – sie müssen überarbeitet oder ergänzt werden'},
+        {v:'create',  label:'Nein, die Texte sollen vollständig erstellt werden'},
+        {v:'unsure',  label:'Ich bin noch unsicher'},
       ]},
     { key:'logo', hint:'Logo & Gestaltung', type:'single',
       text:'Gibt es bereits Logo und Gestaltung?',
@@ -319,9 +321,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     const base = BASE[answers.type] || BASE.landing;
     let lo=base.lo, hi=base.hi;
     const notes=[]; const isLanding = answers.type==='landing';
-    // Texte
-    if(answers.texte==='part'){ lo+=150; hi+=250; }
-    if(answers.texte==='none'){ if(isLanding){lo+=250;hi+=350;} else {lo+=500;hi+=700;} }
+    // Texte: Antwort wird gespeichert — noch keine konkreten Zuschläge definiert
     // Bilder: keine automatische Foto/Video-Preisberechnung — separat offeriert
     if(['partial','support','unsure'].includes(answers.bilder)){
       notes.push('Foto- und Videoaufnahmen werden je nach Umfang, Standort und Anforderungen separat offeriert.');
@@ -344,7 +344,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
 
   const HUMAN = {
     bestehend:{new:'Neubau',replace:'bestehende Seite wird ersetzt',rework:'bestehende Seite wird überarbeitet',partial:'einzelne Inhalte werden übernommen'},
-    texte:{full:'vollständig vorhanden',part:'teilweise / Stichworte',none:'müssen erstellt werden'},
+    texte:{ready:'fertig, übernehmbar',partial:'teilweise (Überarbeitung/Ergänzung)',create:'sollen erstellt werden',unsure:'noch unsicher'},
     bilder:{have:'alles vorhanden',partial:'teilweise vorhanden',support:'Unterstützung gewünscht',unsure:'noch unsicher'},
     logo:{yes:'vorhanden',part:'teilweise',no:'nicht vorhanden'},
     domain:{both:'beides vorhanden',part:'teilweise',none:'noch nicht'},
