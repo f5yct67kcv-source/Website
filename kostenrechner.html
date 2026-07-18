@@ -68,6 +68,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
 .opt.sel .box::after{transform:scale(1)}
 .opt.multi .box{border-radius:0}
 .opt small{display:block;color:var(--text-muted);font-size:12.5px;margin-top:2px}
+.opt.dis{opacity:.38;pointer-events:none}
 .cond{margin:-6px 0 30px}
 .cond label{display:block;font-family:var(--mono);font-size:12px;color:var(--text-muted);margin-bottom:9px}
 .cond input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-family:var(--body);font-size:14.5px}
@@ -204,6 +205,17 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         {v:'create',  label:'Nein, die Texte sollen vollständig erstellt werden'},
         {v:'unsure',  label:'Ich bin noch unsicher'},
       ]},
+    { key:'google', hint:'Google-Dienste', type:'multi', exclusive:['done','check','none'],
+      text:'Welche Google-Dienste möchtest du einrichten oder prüfen lassen?',
+      sub:'Das technische SEO-Grundgerüst ist bei jeder Website bereits enthalten. Zusätzliche Google-Dienste können auf Wunsch eingerichtet oder geprüft werden.',
+      options:[
+        {v:'gbp',   label:'Google Business Profile'},
+        {v:'gsc',   label:'Google Search Console'},
+        {v:'ga',    label:'Google Analytics'},
+        {v:'done',  label:'Es ist bereits alles eingerichtet'},
+        {v:'check', label:'Ich bin unsicher – bitte prüfen'},
+        {v:'none',  label:'Ich benötige nichts davon'},
+      ]},
     { key:'logo', hint:'Logo & Gestaltung', type:'single',
       text:'Gibt es bereits Logo und Gestaltung?',
       options:[
@@ -283,6 +295,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     qSub.textContent = q.sub || '';
     qSub.style.display = q.sub ? 'block' : 'none';
     optsEl.innerHTML='';
+    const excl=q.exclusive||[]; const exclActive=(answers[q.key]||[]).some(v=>excl.includes(v));
     q.options.forEach(opt=>{
       const b=document.createElement('button');
       b.className='opt'+(q.type==='multi'?' multi':'');
@@ -290,12 +303,18 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         ? (answers[q.key]||[]).includes(opt.v)
         : answers[q.key]===opt.v;
       if(sel) b.classList.add('sel');
+      if(exclActive && !sel) b.classList.add('dis');
       b.innerHTML = `<span class="box"></span><span>${opt.label}${opt.desc?`<small>${opt.desc}</small>`:''}</span>`;
       b.addEventListener('click',()=>{
         if(q.type==='multi'){
-          const arr = answers[q.key] ? [...answers[q.key]] : [];
-          const i = arr.indexOf(opt.v);
-          if(i>=0) arr.splice(i,1); else arr.push(opt.v);
+          let arr = answers[q.key] ? [...answers[q.key]] : [];
+          const excl = q.exclusive || [];
+          if(excl.includes(opt.v)){
+            arr = arr.includes(opt.v) ? [] : [opt.v];
+          } else {
+            arr = arr.filter(v=>!excl.includes(v));
+            arr = arr.includes(opt.v) ? arr.filter(v=>v!==opt.v) : [...arr, opt.v];
+          }
           answers[q.key]=arr;
           render();
         } else {
@@ -350,6 +369,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     domain:{both:'beides vorhanden',part:'teilweise',none:'noch nicht'},
     zeit:{asap:'so schnell wie möglich',soon:'1–3 Monate',flex:'kein fester Termin'},
     funktionen:{form:'Kontaktformular',galerie:'Bildergalerie',maps:'Google Maps',termin:'Terminbuchung',multilang:'Mehrsprachigkeit',other:'Sonstiges'},
+    google:{gbp:'Google Business Profile',gsc:'Search Console',ga:'Analytics',done:'bereits eingerichtet',check:'prüfen gewünscht',none:'nichts davon'},
   };
 
   function showResult(){
@@ -362,11 +382,13 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     document.getElementById('resNum').textContent = `${chf(r.lo)} – ${chf(r.hi)}`;
     document.getElementById('resTyp').innerHTML = `Empfohlen: <b>${r.typeLabel}</b>`;
     const funcs = (answers.funktionen||[]).map(v=>HUMAN.funktionen[v]).join(', ') || '—';
+    const gdienste = (answers.google||[]).map(v=>HUMAN.google[v]).join(', ') || '—';
     const rows = [
       ['typ', r.typeLabel],
       ['ausgangslage', HUMAN.bestehend[answers.bestehend]],
       ['texte', HUMAN.texte[answers.texte]],
       ['bilder', HUMAN.bilder[answers.bilder]],
+      ['google-dienste', gdienste],
       ['logo & gestaltung', HUMAN.logo[answers.logo]],
       ['funktionen', funcs],
       ['domain & hosting', HUMAN.domain[answers.domain]],
