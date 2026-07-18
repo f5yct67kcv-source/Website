@@ -159,3 +159,113 @@ Vor dem Bauen jeder Sektion durchgehen:
 - [ ] Sind alle gezeigten Zahlen/Werte echt oder klar als Platzhalter markiert (§4)?
 - [ ] Falls Humor: gegen Komplexität/Baukasten — nie gegen den Kunden? Nutzen im Klartext daneben (§5)?
 - [ ] Wirkt es technisch-solide statt luxuriös? Kupfer als Markierung, nicht als Gold (§6)?
+
+---
+
+## 10. Seiten-Dramaturgie & Reihenfolge (festgelegt)
+
+**Arbeitsweise:** erst Dramaturgie/Reihenfolge bauen, danach Texte & Details
+schleifen — nicht Abschnitte polieren, die später rausfliegen könnten.
+**Keine künstlich lange Landingpage** — eine 12-Sektionen-Seite widerspräche
+der eigenen Botschaft (klein, direkt, persönlich).
+
+**Landingpage-Struktur (schlank, Stand aktuell):**
+1. Hero
+2. Referenzen / Arbeiten (Brand-/Referenzband)
+3. Warum [Markenname]
+4. Kurzer Angebotsblock (Überblick, **keine Preise, keine Pakete**)
+5. Kostenrechner-CTA
+6. FAQ
+7. Footer
+
+**Balance über die ganze Seite:** Haltung · Beweis · Angebot · Vertrauen · Handlung.
+
+**Prinzip — nicht dreimal dasselbe:** Der Hero liefert bereits viel *Haltung*.
+Direkt danach NICHT noch ein Haltungsblock. Sonst dreimal „ich mach's
+einfacher/schlanker" hintereinander (Hero „nicht zusammengeklickt" · Kontrast
+„kein Feature-Wettrüsten" · Warum „kein Agenturapparat"). Deshalb: erst
+Referenzen (Beweis), dann „Warum" (warum die Zusammenarbeit anders/angenehm
+ist), dann konkret das Angebot.
+
+**Warum-Block verkauft den realen Vorteil, nicht „sauberer Code".** Die
+Zielgruppe versteht Codequalität nicht unbedingt — aber sofort: *ein
+Ansprechpartner · keine Agenturkosten · kein Sitzungsmarathon · ehrliche
+Beratung · unkomplizierter Ablauf.*
+
+Festgelegte Warum-Copy (Claude-Code-ehrlich — **nicht** „programmiert den Code
+selbst", das läse sich wie „jede Zeile von Hand"):
+> Kein Agenturapparat. Keine fünf Meetings, kein Angebot über vierzehn Seiten.
+> Hier kommen Konzept, Design und Entwicklung aus einer Hand. Du bekommst einen
+> direkten Ansprechpartner, eine ehrliche Einschätzung und genau die Website,
+> die dein Unternehmen wirklich braucht.
+> Unkompliziert, persönlich und ohne Baukasten-Abo im Kleingedruckten.
+>
+> — ein Ansprechpartner · vom ersten Entwurf bis zum Launch
+
+**Über mich:** klein halten — Foto + 3–5 ehrliche Sätze. Entweder kleiner
+Abschnitt, in „Warum" integriert oder kurze eigene Seite. **Keine grosse
+Über-mich-Sektion erzwingen** — keine halbe Lebensgeschichte zwischen Angebot
+und Rechner.
+
+**Kurzer Angebotsblock (Hauptseite, ohne Preise/Pakete):**
+> Websites für Selbstständige und kleine Unternehmen
+> Von der fokussierten Landingpage bis zur vollständigen Firmenwebsite.
+> Individuell entwickelt, mobil optimiert und ohne unnötige laufende
+> Plattformkosten.
+
+Darunter nur drei Kategorien: **Landingpages · Firmenwebsites · bestehende
+Websites modernisieren.** Keine Preise, keine komplizierten Pakete.
+
+**Kontrast-Block „braucht / braucht nicht"** kommt NICHT nach dem Slider.
+Verwendbar als Logik-Einleitung im Angebotsteil / auf der Rechner-Seite:
+- Braucht sie: schnell laden · mobil funktionieren · Vertrauen schaffen · Anfragen ermöglichen
+- Braucht sie nicht: unnötige Plugins · zwanzig Unterseiten · laufende Plattformkosten · Funktionen, die niemand nutzt
+
+---
+
+## 11. Preis-Politik (bewusste Korrektur ggü. Skill)
+
+Ändert die frühere „sichtbare Ab-Preise"-Idee der Skill **bewusst** — und
+stärkt §4 (Ehrlichkeit):
+
+- **KEIN öffentlicher „ab 900 CHF".** Ein Startpreis setzt einen Anker; wird's
+  später 1'500, denkt ein Teil „plötzlich fast doppelt so teuer" statt „logisch,
+  ich brauche ja Texte/Bilder" — selbst bei sauberer Kalkulation. Und ein
+  öffentlicher Festpreis für ein **noch undefiniertes** Projekt wird zur
+  Mogelpackung (Texte, Bilder, Migration, Mehrsprachigkeit, Sonderfunktionen …).
+- **Festpreis JA — aber erst nach Klärung:** „Nach deiner Anfrage erhältst du
+  ein verbindliches Festpreisangebot."
+- **Öffentliches Versprechen (Transparenz ohne Fake-Preis):** „In wenigen
+  Schritten erhältst du eine realistische Kostenschätzung. Anschliessend prüfe
+  ich deine Angaben und erstelle dir ein verbindliches Festpreisangebot."
+- Rechner gibt einen **Rahmen** aus, **kein exaktes Endangebot**: „Geschätzter
+  Preisrahmen: CHF X–Y. Auf Basis deiner Angaben. Nach kurzer Prüfung erhältst
+  du ein verbindliches Festpreisangebot."
+- Trade-off bewusst akzeptiert: Man verliert das *sofortige* Filtern vor jedem
+  Klick (Skill-Argument der sichtbaren Preise). Der Rechner-Rahmen qualifiziert
+  aber genauso — nur einen Klick später, dafür ehrlich und nachvollziehbar.
+
+---
+
+## 12. Kostenrechner = eigene Seite (Spezifikation)
+
+Nicht Sektion, sondern **eigenständige Seite** — das eigentliche Verkaufs-/
+Qualifizierungsinstrument. Landingpage zeigt nur den CTA **„Website-Kosten
+berechnen"**. Saubere Trennung:
+- **Landingpage:** Vertrauen, Haltung, Angebot.
+- **Rechner:** Projektumfang, Qualifizierung, Preisrahmen.
+
+Ruhig, max. **8 Schritte** — soll qualifizieren, nicht die Steuererklärung
+ersetzen. Fragen:
+1. Was brauchst du? (Landingpage / Website 3–5 Seiten / grössere Firmenwebsite / bestehende überarbeiten)
+2. Texte vorhanden? (vollständig / teilweise / müssen erstellt werden)
+3. Bilder vorhanden? (ja / teilweise / nein)
+4. Logo & Gestaltung vorhanden? (ja / teilweise / nein)
+5. Funktionen? (Kontaktformular / Galerie / Google Maps / Terminbuchung / Mehrsprachigkeit / Sonstiges)
+6. Domain & Hosting vorhanden?
+7. Wie schnell soll sie live sein?
+8. Kontaktdaten + freie Bemerkung
+
+**Ausgabe (drei Dinge):** empfohlener Website-Typ · geschätzter Preisrahmen ·
+kurze Zusammenfassung der gewählten Leistungen. Danach CTA **„Projekt
+unverbindlich anfragen"**.
