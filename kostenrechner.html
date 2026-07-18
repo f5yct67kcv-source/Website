@@ -237,12 +237,15 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         {v:'flex',   label:'Kein fester Termin'},
         {v:'date',   label:'Zu einem bestimmten Datum'},
       ]},
-    { key:'logo', hint:'Logo & Gestaltung', type:'single',
-      text:'Gibt es bereits Logo und Gestaltung?',
+    { key:'logo', hint:'Logo & Auftritt', type:'single',
+      text:'Gibt es bereits ein Logo und einen visuellen Auftritt?',
+      sub:'Ein einfacher, professioneller Markenauftritt für die Website kann auf Wunsch mitentwickelt werden. Umfangreichere Branding-Projekte werden separat geprüft und offeriert.',
       options:[
-        {v:'yes',  label:'Ja, alles vorhanden'},
-        {v:'part', label:'Teilweise'},
-        {v:'no',   label:'Nein'},
+        {v:'have',     label:'Ja, Logo, Farben und Schriften sind vorhanden'},
+        {v:'partial',  label:'Teilweise – einzelne Grundlagen fehlen'},
+        {v:'basic',    label:'Nein, ich brauche ein einfaches Logo und eine grundlegende Gestaltung'},
+        {v:'branding', label:'Ich wünsche eine umfassendere Markenentwicklung'},
+        {v:'unsure',   label:'Ich bin noch unsicher'},
       ]},
     { key:'funktionen', hint:'Funktionen', type:'multi',
       text:'Welche Funktionen brauchst du?',
@@ -366,9 +369,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     if(['partial','support','unsure'].includes(answers.bilder)){
       notes.push('Foto- und Videoaufnahmen werden je nach Umfang, Standort und Anforderungen separat offeriert.');
     }
-    // Logo
-    if(answers.logo==='part'){ lo+=100; hi+=200; }
-    if(answers.logo==='no'){ lo+=250; hi+=450; }
+    // Logo & Auftritt: Antwort gespeichert — noch keine konkreten Zuschläge definiert
     // Funktionen
     const f = answers.funktionen||[];
     if(f.includes('galerie')){ lo+=150; hi+=300; }
@@ -386,7 +387,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     bestehend:{new:'Neubau',replace:'bestehende Seite wird ersetzt',rework:'bestehende Seite wird überarbeitet',partial:'einzelne Inhalte werden übernommen'},
     texte:{ready:'fertig, übernehmbar',partial:'teilweise (Überarbeitung/Ergänzung)',create:'sollen erstellt werden',unsure:'noch unsicher'},
     bilder:{have:'alles vorhanden',partial:'teilweise vorhanden',support:'Unterstützung gewünscht',unsure:'noch unsicher'},
-    logo:{yes:'vorhanden',part:'teilweise',no:'nicht vorhanden'},
+    logo:{have:'vorhanden',partial:'teilweise',basic:'einfaches Logo gewünscht',branding:'Markenentwicklung gewünscht',unsure:'noch unsicher'},
     domain:{both:'beides vorhanden',part:'teilweise',none:'noch nicht'},
     launch:{asap:'so schnell wie möglich',weeks:'4–6 Wochen',months:'2–3 Monate',flex:'kein fester Termin',date:'bestimmtes Datum'},
     funktionen:{form:'Kontaktformular',galerie:'Bildergalerie',maps:'Google Maps',termin:'Terminbuchung',multilang:'Mehrsprachigkeit',other:'Sonstiges'},
