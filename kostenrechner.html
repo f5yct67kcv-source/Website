@@ -225,6 +225,18 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         {v:'support', label:'Ich brauche gelegentlich Unterstützung bei Änderungen'},
         {v:'advise',  label:'Ich bin noch unsicher und möchte beraten werden'},
       ]},
+    { key:'launch', hint:'Launch', type:'single',
+      text:'Wann soll deine Website live gehen?',
+      sub:'Der mögliche Start- und Veröffentlichungstermin hängt vom Projektumfang, deiner Mitwirkung und meiner aktuellen Kapazität ab.',
+      conditional:{ when:function(a){return a==='date';}, store:'launchDate', type:'date',
+        label:'Gewünschtes Datum', hint:'Kein Datum in der Vergangenheit.' },
+      options:[
+        {v:'asap',   label:'So schnell wie möglich'},
+        {v:'weeks',  label:'Innerhalb von 4–6 Wochen'},
+        {v:'months', label:'Innerhalb von 2–3 Monaten'},
+        {v:'flex',   label:'Kein fester Termin'},
+        {v:'date',   label:'Zu einem bestimmten Datum'},
+      ]},
     { key:'logo', hint:'Logo & Gestaltung', type:'single',
       text:'Gibt es bereits Logo und Gestaltung?',
       options:[
@@ -249,13 +261,6 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
         {v:'both', label:'Ja, beides vorhanden'},
         {v:'part', label:'Teilweise'},
         {v:'none', label:'Nein, brauche ich'},
-      ]},
-    { key:'zeit', hint:'Zeitrahmen', type:'single',
-      text:'Wie schnell soll die Website live sein?',
-      options:[
-        {v:'asap', label:'So schnell wie möglich'},
-        {v:'soon', label:'In den nächsten 1–3 Monaten'},
-        {v:'flex', label:'Kein fester Termin'},
       ]},
   ];
 
@@ -289,10 +294,17 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     }
     const c=q.conditional;
     condEl.classList.remove('hidden');
-    condEl.innerHTML = `<label>${c.label}</label><input type="url" id="condInput" placeholder="${c.placeholder||''}"><div class="h">${c.hint||''}</div>`;
+    const type=c.type||'url';
+    let today='', extra='';
+    if(type==='date'){ today=new Date().toISOString().slice(0,10); extra=` min="${today}"`; }
+    condEl.innerHTML = `<label>${c.label}</label><input type="${type}"${extra} id="condInput" placeholder="${c.placeholder||''}"><div class="h">${c.hint||''}</div>`;
     const inp=document.getElementById('condInput');
     inp.value = answers[c.store]||'';
-    inp.addEventListener('input',()=>{ answers[c.store]=inp.value.trim(); });
+    inp.addEventListener('input',()=>{
+      let v=inp.value;
+      if(type==='date' && v && v<today){ v=''; inp.value=''; }
+      answers[c.store]=(typeof v.trim==='function')?v.trim():v;
+    });
   }
 
   function render(){
@@ -376,7 +388,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     bilder:{have:'alles vorhanden',partial:'teilweise vorhanden',support:'Unterstützung gewünscht',unsure:'noch unsicher'},
     logo:{yes:'vorhanden',part:'teilweise',no:'nicht vorhanden'},
     domain:{both:'beides vorhanden',part:'teilweise',none:'noch nicht'},
-    zeit:{asap:'so schnell wie möglich',soon:'1–3 Monate',flex:'kein fester Termin'},
+    launch:{asap:'so schnell wie möglich',weeks:'4–6 Wochen',months:'2–3 Monate',flex:'kein fester Termin',date:'bestimmtes Datum'},
     funktionen:{form:'Kontaktformular',galerie:'Bildergalerie',maps:'Google Maps',termin:'Terminbuchung',multilang:'Mehrsprachigkeit',other:'Sonstiges'},
     google:{gbp:'Google Business Profile',gsc:'Search Console',ga:'Analytics',done:'bereits eingerichtet',check:'prüfen gewünscht',none:'nichts davon'},
     betreuung:{managed:'Hosting & Betreuung abgeben',self:'selbst verwalten',support:'gelegentliche Unterstützung',advise:'Beratung gewünscht'},
@@ -404,7 +416,7 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
       ['funktionen', funcs],
       ['domain & hosting', HUMAN.domain[answers.domain]],
       ['betreuung', betr],
-      ['zeitrahmen', HUMAN.zeit[answers.zeit]],
+      ['zeitrahmen', HUMAN.launch[answers.launch] + (answers.launchDate ? ' ('+answers.launchDate+')' : '')],
     ];
     if(answers.bestehendUrl) rows.splice(2,0,['aktuelle website', answers.bestehendUrl]);
     document.getElementById('resSum').innerHTML = rows.map(
