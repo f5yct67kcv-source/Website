@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>[PLATZHALTER] — Websites für Selbstständige & KMU</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0806;
+    --surface: #15110c;
+    --surface-2: #1e1712;
+    --border: rgba(232,237,242,0.09);
+    --border-strong: rgba(232,237,242,0.16);
+    --text: #e8edf2;
+    --text-muted: #8892a0;
+    --text-faint: #545d69;
+    --accent: #dd8e4a;
+    --accent-dim: #a55e2a;
+    --accent-2: #f0b881;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+    --container: 1140px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  img, svg, canvas { display: block; max-width: 100%; }
+
+  .wrap {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .eyebrow::before { content: '>'; color: var(--text-faint); }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  /* ---------- NAV ---------- */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: rgba(6,7,10,0.72);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav.wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+  .logo {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text);
+  }
+  .logo .mark {
+    width: 20px; height: 20px;
+    border: 1.5px solid var(--accent);
+    border-radius: 4px;
+    display: grid;
+    place-items: center;
+    font-size: 11px;
+    color: var(--accent);
+  }
+  .logo .ph {
+    font-size: 10px;
+    color: var(--text-faint);
+    border: 1px solid var(--border-strong);
+    border-radius: 3px;
+    padding: 2px 6px;
+    margin-left: 6px;
+    letter-spacing: 0.04em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 9px 18px;
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    color: var(--accent);
+    transition: background 0.15s, color 0.15s;
+  }
+  .nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding-top: 68px;
+    overflow: hidden;
+  }
+  #network-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    opacity: 0.5;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 55% at 28% 45%, rgba(6,7,10,0.82) 0%, rgba(6,7,10,0.35) 60%, transparent 85%);
+    z-index: 1;
+    pointer-events: none;
+  }
+  @media (max-width: 760px) {
+    #network-canvas { opacity: 0.6; }
+    .hero::after {
+      background: radial-gradient(ellipse 100% 38% at 50% 46%, rgba(6,7,10,0.6) 0%, rgba(6,7,10,0.2) 70%, transparent 92%);
+    }
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 760px;
+  }
+  .hero h1 {
+    font-size: clamp(2.6rem, 5.5vw, 4.4rem);
+    margin: 20px 0 24px;
+    text-shadow: 0 2px 30px rgba(6,7,10,0.95), 0 1px 8px rgba(6,7,10,0.8);
+  }
+  .hero h1 .hl { color: var(--accent); }
+  .hero p.lead {
+    font-size: 19px;
+    color: var(--text-muted);
+    max-width: 540px;
+    margin-bottom: 36px;
+    text-shadow: 0 1px 16px rgba(6,7,10,0.95);
+  }
+  .cta-row { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+  .btn-primary {
+    position: relative;
+    font-family: var(--font-mono);
+    font-size: 14.5px;
+    font-weight: 600;
+    background: linear-gradient(100deg, var(--accent) 0%, #eca966 45%, var(--accent-2) 100%);
+    background-size: 220% 100%;
+    background-position: 0% 50%;
+    color: var(--bg);
+    padding: 17px 30px;
+    border-radius: 9px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    overflow: hidden;
+    animation: cta-glow 3.4s ease-in-out infinite;
+    transition: background-position 0.5s ease, transform 0.18s ease;
+  }
+  .btn-primary .arw {
+    display: inline-block;
+    transition: transform 0.25s cubic-bezier(.4,1.6,.5,1);
+  }
+  .btn-primary:hover {
+    background-position: 100% 50%;
+    transform: translateY(-3px) scale(1.015);
+  }
+  .btn-primary:hover .arw { transform: translateX(5px); }
+  .btn-primary::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -60%;
+    width: 40%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    transform: skewX(-20deg);
+    animation: cta-shine 3.4s ease-in-out infinite;
+  }
+  @keyframes cta-shine {
+    0%, 55% { left: -60%; }
+    85%, 100% { left: 130%; }
+  }
+  @keyframes cta-glow {
+    0%, 100% { box-shadow: 0 6px 22px -6px rgba(221,142,74,0.45); }
+    50% { box-shadow: 0 8px 30px -4px rgba(240,184,129,0.45); }
+  }
+  .btn-ghost {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--text-muted);
+    padding: 15px 10px;
+    border-bottom: 1px solid var(--border-strong);
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .btn-ghost:hover { color: var(--text); border-color: var(--text); }
+
+  .hero-meta {
+    margin-top: 56px;
+    display: flex;
+    gap: 36px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    flex-wrap: wrap;
+  }
+  .hero-meta span b { color: var(--text-muted); font-weight: 500; }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section { padding: 120px 0; position: relative; }
+  .section-head { max-width: 620px; margin-bottom: 64px; }
+  .section-head h2 { font-size: clamp(1.9rem, 3.4vw, 2.6rem); margin-top: 16px; }
+  .section-head p { color: var(--text-muted); font-size: 17px; margin-top: 16px; }
+
+  /* ---------- TRUST / REFERENCE ---------- */
+  .trust {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  @media (max-width: 860px) { .trust-grid { grid-template-columns: 1fr; } }
+  .trust-card {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+  }
+  .trust-card .browser-chrome {
+    display: flex; gap: 6px; margin-bottom: 16px;
+  }
+  .trust-card .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--border-strong); }
+  .trust-card .url-bar {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin-bottom: 18px;
+  }
+  .trust-card .thumb {
+    aspect-ratio: 16/10;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #1a1410 0%, #241812 60%, #0e0b08 100%);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    border: 1px solid var(--border);
+  }
+  .trust-copy p { color: var(--text-muted); margin: 18px 0 26px; font-size: 16px; }
+  .trust-stats { display: flex; gap: 32px; }
+  .trust-stats div b { font-family: var(--font-display); font-size: 26px; display: block; color: var(--accent); }
+  .trust-stats div span { font-size: 13px; color: var(--text-faint); }
+
+  /* ---------- PRICING ---------- */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 760px) { .pricing-grid { grid-template-columns: 1fr; } }
+  .price-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 36px;
+    position: relative;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .price-card:hover { border-color: var(--border-strong); transform: translateY(-4px); }
+  .price-card.featured { border-color: var(--accent); background: linear-gradient(180deg, rgba(221,142,74,0.06), var(--surface) 40%); }
+  .price-card .tag {
+    position: absolute; top: -12px; right: 28px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .price-card h3 { font-size: 22px; margin-bottom: 8px; }
+  .price-card .desc { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
+  .price-card .price {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    color: var(--text-faint);
+    margin-bottom: 4px;
+  }
+  .price-card .price b {
+    font-family: var(--font-display);
+    font-size: 38px;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .price-card .price-note { font-size: 13px; color: var(--text-faint); margin-bottom: 28px; }
+  .price-card ul { list-style: none; margin-bottom: 28px; }
+  .price-card li {
+    font-size: 14.5px;
+    color: var(--text-muted);
+    padding: 9px 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; gap: 10px;
+  }
+  .price-card li:last-child { border-bottom: none; }
+  .price-card li::before { content: '＋'; color: var(--accent); font-family: var(--font-mono); }
+  .price-card .card-cta {
+    display: block;
+    text-align: center;
+    padding: 13px;
+    border: 1px solid var(--border-strong);
+    border-radius: 7px;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .price-card.featured .card-cta { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 500; }
+  .price-card .card-cta:hover { border-color: var(--text); }
+
+  .pricing-footnote {
+    margin-top: 28px;
+    font-size: 13.5px;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+  }
+
+  /* ---------- PROCESS ---------- */
+  .process { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .process-list { counter-reset: step; }
+  .process-item {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 24px;
+    padding: 30px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+  }
+  .process-item:last-child { border-bottom: none; }
+  .process-item .num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--accent-2);
+  }
+  .process-item h3 { font-size: 19px; margin-bottom: 8px; }
+  .process-item p { color: var(--text-muted); font-size: 15px; max-width: 560px; }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 64px;
+    align-items: center;
+  }
+  @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-visual {
+    aspect-ratio: 1;
+    border-radius: 16px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+    font-size: 13px;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-visual::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .about-copy p { color: var(--text-muted); font-size: 17px; margin-bottom: 18px; }
+  .about-copy p b { color: var(--text); font-weight: 500; }
+  .about-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+  .about-tags span {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 6px 11px;
+  }
+
+  /* ---------- CALCULATOR ---------- */
+  .calc { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .calc-panel {
+    max-width: 660px;
+    margin: 0 auto;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.6);
+  }
+  .calc-chrome {
+    display: flex; align-items: center; gap: 8px;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+  .calc-chrome .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .calc-chrome .dot:nth-child(1) { background: #ff5f57; }
+  .calc-chrome .dot:nth-child(2) { background: #febc2e; }
+  .calc-chrome .dot:nth-child(3) { background: #28c840; }
+  .calc-chrome .title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    margin-left: 8px;
+  }
+  .calc-body { padding: 40px; }
+  .calc-progress {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .calc-progress .bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 32px;
+    overflow: hidden;
+  }
+  .calc-progress .bar i {
+    display: block; height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    width: 12.5%;
+    transition: width 0.3s ease;
+  }
+  .calc-q { font-family: var(--font-display); font-size: 22px; margin-bottom: 24px; min-height: 60px; }
+  .calc-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+  .calc-opt {
+    text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 15px 18px;
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .calc-opt:hover { border-color: var(--accent); }
+  .calc-opt.selected { border-color: var(--accent); background: rgba(221,142,74,0.08); }
+  .calc-nav { display: flex; justify-content: space-between; align-items: center; }
+  .calc-nav button {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    padding: 11px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+  }
+  .calc-back { background: none; border: 1px solid var(--border-strong); color: var(--text-muted); }
+  .calc-next { background: var(--accent); border: none; color: var(--bg); font-weight: 500; }
+  .calc-next:disabled { opacity: 0.4; cursor: not-allowed; }
+  .calc-result { text-align: center; padding: 12px 0; }
+  .calc-result .est { font-family: var(--font-mono); font-size: 13px; color: var(--text-faint); margin-bottom: 6px; }
+  .calc-result .num { font-family: var(--font-display); font-size: 42px; color: var(--accent); margin-bottom: 20px; }
+  .calc-form input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 13px 16px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .calc-form input:focus { border-color: var(--accent); outline: none; }
+
+  /* ---------- FOOTER ---------- */
+  footer { padding: 64px 0 40px; }
+  .footer-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .footer-links { display: flex; gap: 24px; font-size: 13.5px; color: var(--text-faint); flex-wrap: wrap; }
+  .footer-links a:hover { color: var(--text-muted); }
+  .footer-bottom { font-family: var(--font-mono); font-size: 12px; color: var(--text-faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo"><span class="mark">&lt;/&gt;</span>PLATZHALTER</div>
+    <div class="nav-links">
+      <a href="#angebot">Angebot</a>
+      <a href="#ablauf">Ablauf</a>
+      <a href="#ueber">Über mich</a>
+    </div>
+    <a href="#rechner" class="nav-cta">Kostenrechner</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <canvas id="network-canvas"></canvas>
+  <div class="wrap hero-content">
+    <h1>Websites, die man<br>sich <span class="hl">merkt</span>. Nicht die<br>man schon kennt.</h1>
+    <p class="lead">Individuell programmiert statt aus dem Baukasten. Für Selbstständige und kleine Unternehmen im Raum Solothurn, die online genauso ernst genommen werden wollen wie im echten Leben.</p>
+    <div class="cta-row">
+      <a href="#rechner" class="btn-primary">Website-Kosten berechnen <span class="arw">→</span></a>
+      <a href="#angebot" class="btn-ghost">Angebot ansehen</a>
+    </div>
+    <div class="hero-meta">
+      <span><b>Reiner Code</b> — kein Baukasten, kein CMS</span>
+      <span><b>2–3 Korrekturschleifen</b> inklusive</span>
+      <span><b>Domain gehört dir</b> — kein Lock-in</span>
+    </div>
+  </div>
+</section>
+
+<section class="trust" id="referenz">
+  <div class="wrap trust-grid">
+    <div class="trust-card">
+      <div class="browser-chrome">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </div>
+      <div class="url-bar">adrianvonarbfilms.ch</div>
+      <div class="thumb">Vorschau — reales Projekt</div>
+    </div>
+    <div class="trust-copy">
+      <span class="eyebrow">kein Konzept, sondern gebaut</span>
+      <h2>Das ist keine Behauptung.<br>Das ist ein Link.</h2>
+      <p>adrianvonarbfilms.ch läuft seit Wochen live — vollständig eigenständig programmiert, ohne CMS, ohne Baukasten. Genau dieser Ansatz steckt auch in deinem Projekt.</p>
+      <div class="trust-stats">
+        <div><b>100%</b><span>eigener Code</span></div>
+        <div><b>0</b><span>CMS-Sicherheitslücken</span></div>
+        <div><b>1</b><span>Ansprechperson</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="angebot">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">angebot &amp; preise</span>
+      <h2>Zwei Formate. Keine Rabatt&shy;stufen-Verwirrung.</h2>
+      <p>Der Preis richtet sich nach dem Umfang, nicht danach, wie gut du verhandelst. Eigene Texte und Bilder vorausgesetzt — brauchst du Unterstützung dabei, sag's im Kostenrechner.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Landingpage</h3>
+        <p class="desc">Eine starke Seite. Für Angebote, die keine zehn Unterseiten brauchen, um zu überzeugen.</p>
+        <div class="price">ab <b>CHF 900</b></div>
+        <div class="price-note">einmalig, exkl. Hosting</div>
+        <ul>
+          <li>Individuelles Design &amp; Code</li>
+          <li>2–3 Korrekturschleifen</li>
+          <li>Mobil optimiert</li>
+          <li>Kontaktformular</li>
+        </ul>
+        <a href="#rechner" class="card-cta">Für mich schätzen</a>
+      </div>
+      <div class="price-card featured">
+        <span class="tag">am häufigsten gewählt</span>
+        <h3>Website mit Unterseiten</h3>
+        <p class="desc">Bis zu 5 Seiten. Für Angebote, die etwas mehr Raum zum Erklären brauchen.</p>
+        <div class="price">ab <b>CHF 2'200</b></div>
+        <div class="price-note">einmalig, exkl. Hosting</div>
+        <ul>
+          <li>Alles aus Landingpage</li>
+          <li>Bis 5 individuelle Unterseiten</li>
+          <li>SEO-Grundausstattung</li>
+          <li>Google Business Anbindung</li>
+        </ul>
+        <a href="#rechner" class="card-cta">Für mich schätzen</a>
+      </div>
+    </div>
+    <p class="pricing-footnote">$ hosting --pauschale 150-200.-/jahr &nbsp;·&nbsp; $ updates --ab 60.-/änderung</p>
+  </div>
+</section>
+
+<section class="process" id="ablauf">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">ablauf</span>
+      <h2>Ein klarer Weg. Keine Überraschungen.</h2>
+    </div>
+    <div class="process-list">
+      <div class="process-item">
+        <div class="num">01</div>
+        <div><h3>Kostenrechner</h3><p>Du beantwortest ein paar Fragen zu deinem Projekt und bekommst sofort eine ehrliche Ersteinschätzung — ganz ohne Verkaufsgespräch.</p></div>
+      </div>
+      <div class="process-item">
+        <div class="num">02</div>
+        <div><h3>Kurzes Gespräch</h3><p>Passt die Grössenordnung? Dann klären wir Inhalt, Umfang und Zeitrahmen in einem kurzen Call.</p></div>
+      </div>
+      <div class="process-item">
+        <div class="num">03</div>
+        <div><h3>Fixangebot &amp; Anzahlung</h3><p>Du erhältst einen Festpreis, keine Nachverhandlung. 50% bei Auftragsbestätigung, 50% beim Launch.</p></div>
+      </div>
+      <div class="process-item">
+        <div class="num">04</div>
+        <div><h3>Konzeption &amp; Bau</h3><p>Design und Umsetzung mit deinem Feedback, inklusive 2–3 Korrekturschleifen.</p></div>
+      </div>
+      <div class="process-item">
+        <div class="num">05</div>
+        <div><h3>Launch</h3><p>Deine Website geht live — Domain bleibt in deinem Namen, Hosting läuft über meine Infrastruktur.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ueber">
+  <div class="wrap about-grid">
+    <div class="about-visual">[ Platzhalter-Portrait ]</div>
+    <div class="about-copy">
+      <span class="eyebrow">über mich</span>
+      <h2 style="margin: 16px 0 20px; font-size: clamp(1.7rem, 3vw, 2.2rem);">Kein Team. Kein Agentur-Overhead.<br>Ein Ansprechpartner.</h2>
+      <p>Ich baue Websites <b>bewusst im kleinen Rahmen</b> — wenige Projekte pro Monat, dafür mit voller Aufmerksamkeit. Kein Praktikant, der deine Anfrage bearbeitet, keine Warteschlange.</p>
+      <p>Reiner, individuell geschriebener Code statt Baukasten heisst: schnelle Ladezeiten, keine Lizenzkosten, keine Sicherheitslücken durch veraltete Plugins.</p>
+      <div class="about-tags">
+        <span>HTML / CSS / JS</span>
+        <span>Kein CMS</span>
+        <span>Raum Solothurn · Olten</span>
+        <span>Deutsch</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="calc" id="rechner">
+  <div class="wrap">
+    <div class="section-head" style="margin: 0 auto 48px; text-align: center;">
+      <span class="eyebrow" style="justify-content: center;">kostenrechner</span>
+      <h2>Was würde deine Website kosten?</h2>
+      <p style="margin-left: auto; margin-right: auto;">6 kurze Fragen, ehrliche Einschätzung, keine Verpflichtung.</p>
+    </div>
+
+    <div class="calc-panel">
+      <div class="calc-chrome">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="title">kostenrechner.js</span>
+      </div>
+      <div class="calc-body">
+
+        <div class="calc-progress">
+          <span id="step-label">Schritt 1 / 6</span>
+          <span id="step-hint">Website-Typ</span>
+        </div>
+        <div class="bar"><i id="progress-bar"></i></div>
+
+        <div id="calc-question-area">
+          <div class="calc-q" id="calc-q-text"></div>
+          <div class="calc-options" id="calc-options"></div>
+        </div>
+
+        <div id="calc-result-area" class="calc-result" style="display:none;">
+          <div class="est">geschätzte Investition</div>
+          <div class="num" id="calc-estimate">CHF —</div>
+          <div class="calc-form">
+            <input type="text" placeholder="Name" id="calc-name">
+            <input type="email" placeholder="E-Mail" id="calc-email">
+          </div>
+        </div>
+
+        <div class="calc-nav">
+          <button class="calc-back" id="calc-back">← Zurück</button>
+          <button class="calc-next" id="calc-next">Weiter →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="logo"><span class="mark">&lt;/&gt;</span>PLATZHALTER</div>
+      <div class="footer-links">
+        <a href="#angebot">Angebot</a>
+        <a href="#ablauf">Ablauf</a>
+        <a href="#ueber">Über mich</a>
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+      </div>
+    </div>
+    <div class="wrap footer-bottom" style="padding: 0;">
+      <span>© 2026 — Raum Solothurn / Olten / Oberaargau</span>
+      <span>gebaut mit reinem Code, kein CMS</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ---------- Network background animation ----------
+(function() {
+  const canvas = document.getElementById('network-canvas');
+  const hero = document.querySelector('.hero');
+  const ctx = canvas.getContext('2d');
+  let w, h, cssW, cssH, points = [];
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function resize() {
+    const rect = hero.getBoundingClientRect();
+    cssW = Math.round(rect.width);
+    cssH = Math.round(rect.height);
+    canvas.style.width = cssW + 'px';
+    canvas.style.height = cssH + 'px';
+    w = canvas.width = Math.round(cssW * dpr);
+    h = canvas.height = Math.round(cssH * dpr);
+  }
+
+  let isMobile = false;
+
+  function init() {
+    resize();
+    isMobile = cssW < 760;
+    const divisor = isMobile ? 9000 : 14000;
+    const cap = isMobile ? 85 : 100;
+    const count = Math.max(24, Math.min(cap, Math.floor((cssW * cssH) / divisor)));
+    points = Array.from({length: count}, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 0.16 * dpr,
+      vy: (Math.random() - 0.5) * 0.16 * dpr,
+    }));
+  }
+
+  function step() {
+    ctx.clearRect(0, 0, w, h);
+    const maxDist = (isMobile ? 150 : 145) * dpr;
+
+    for (const p of points) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+    }
+
+    for (let i = 0; i < points.length; i++) {
+      for (let j = i + 1; j < points.length; j++) {
+        const a = points[i], b = points[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < maxDist) {
+          const alpha = (1 - dist / maxDist) * 0.32;
+          ctx.strokeStyle = `rgba(221, 142, 74, ${alpha})`;
+          ctx.lineWidth = 1 * dpr;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+    for (const p of points) {
+      ctx.fillStyle = 'rgba(240, 184, 129, 0.5)';
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.5 * dpr, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    if (!reduceMotion) requestAnimationFrame(step);
+  }
+
+  let roTimer;
+  if (window.ResizeObserver) {
+    new ResizeObserver(() => {
+      clearTimeout(roTimer);
+      roTimer = setTimeout(init, 120);
+    }).observe(hero);
+  } else {
+    window.addEventListener('resize', init);
+  }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(init);
+  }
+  init();
+  step();
+})();
+
+// ---------- Cost calculator ----------
+(function() {
+  const questions = [
+    {
+      key: 'type',
+      label: 'Website-Typ',
+      text: 'Was für eine Website schwebt dir vor?',
+      options: [
+        { text: 'Landingpage — eine starke Seite', value: 'landing', price: 900 },
+        { text: 'Website mit Unterseiten (bis 5 Seiten)', value: 'multi', price: 2200 },
+      ]
+    },
+    {
+      key: 'existing',
+      label: 'Ausgangslage',
+      text: 'Ist das ein Neubau, oder ersetzt es eine bestehende Website?',
+      options: [
+        { text: 'Neubau — ich starte bei null', value: 'new', price: 0 },
+        { text: 'Ersatz einer bestehenden Website', value: 'relaunch', price: 0 },
+      ]
+    },
+    {
+      key: 'texts',
+      label: 'Texte',
+      text: 'Sind deine Website-Texte schon bereit?',
+      options: [
+        { text: 'Ja, fertig und einsatzbereit', value: 'ready', price: 0 },
+        { text: 'Nur Eckpunkte / Stichworte vorhanden', value: 'partial', price: 300 },
+        { text: 'Ich brauche Unterstützung beim Schreiben', value: 'none', price: 500 },
+      ]
+    },
+    {
+      key: 'photos',
+      label: 'Bildmaterial',
+      text: 'Hast du bereits professionelle Fotos?',
+      options: [
+        { text: 'Ja, vorhanden', value: 'yes', price: 0 },
+        { text: 'Nein, brauche Unterstützung', value: 'no', price: 125 },
+      ]
+    },
+    {
+      key: 'timeline',
+      label: 'Zeitrahmen',
+      text: 'Wann soll die Website live sein?',
+      options: [
+        { text: 'So schnell wie möglich', value: 'asap', price: 0 },
+        { text: 'In den nächsten 4–8 Wochen', value: 'soon', price: 0 },
+        { text: 'Kein Zeitdruck', value: 'flex', price: 0 },
+      ]
+    },
+    {
+      key: 'budget',
+      label: 'Budget-Erwartung',
+      text: 'Was ist deine ungefähre Budget-Erwartung?',
+      options: [
+        { text: 'Unter CHF 900', value: 'low' },
+        { text: 'CHF 900 – 2\'800', value: 'mid' },
+        { text: 'Über CHF 2\'800', value: 'high' },
+      ]
+    },
+  ];
+
+  let current = 0;
+  const answers = {};
+
+  const qText = document.getElementById('calc-q-text');
+  const optionsEl = document.getElementById('calc-options');
+  const stepLabel = document.getElementById('step-label');
+  const stepHint = document.getElementById('step-hint');
+  const progressBar = document.getElementById('progress-bar');
+  const backBtn = document.getElementById('calc-back');
+  const nextBtn = document.getElementById('calc-next');
+  const questionArea = document.getElementById('calc-question-area');
+  const resultArea = document.getElementById('calc-result-area');
+  const estimateEl = document.getElementById('calc-estimate');
+
+  function render() {
+    const q = questions[current];
+    stepLabel.textContent = `Schritt ${current + 1} / ${questions.length}`;
+    stepHint.textContent = q.label;
+    progressBar.style.width = `${((current + 1) / (questions.length + 1)) * 100}%`;
+    qText.textContent = q.text;
+    optionsEl.innerHTML = '';
+    q.options.forEach(opt => {
+      const btn = document.createElement('button');
+      btn.className = 'calc-opt';
+      btn.textContent = opt.text;
+      if (answers[q.key] && answers[q.key].value === opt.value) btn.classList.add('selected');
+      btn.addEventListener('click', () => {
+        answers[q.key] = opt;
+        [...optionsEl.children].forEach(c => c.classList.remove('selected'));
+        btn.classList.add('selected');
+        nextBtn.disabled = false;
+      });
+      optionsEl.appendChild(btn);
+    });
+    backBtn.style.visibility = current === 0 ? 'hidden' : 'visible';
+    nextBtn.disabled = !answers[q.key];
+    nextBtn.textContent = current === questions.length - 1 ? 'Ergebnis anzeigen →' : 'Weiter →';
+  }
+
+  function showResult() {
+    questionArea.style.display = 'none';
+    resultArea.style.display = 'block';
+    progressBar.style.width = '100%';
+    stepLabel.textContent = 'Fertig';
+    stepHint.textContent = 'Ergebnis';
+    let total = 0;
+    Object.values(answers).forEach(a => { if (a.price) total += a.price; });
+    const base = answers.type ? answers.type.price : 900;
+    total += base;
+    const low = total;
+    const high = Math.round(total * 1.25 / 50) * 50;
+    estimateEl.textContent = `CHF ${low.toLocaleString('de-CH')} – ${high.toLocaleString('de-CH')}`;
+    nextBtn.textContent = 'Anfrage senden →';
+    backBtn.style.visibility = 'visible';
+  }
+
+  nextBtn.addEventListener('click', () => {
+    if (resultArea.style.display === 'block') {
+      nextBtn.textContent = 'Danke — melde mich!';
+      nextBtn.disabled = true;
+      return;
+    }
+    if (current < questions.length - 1) {
+      current++;
+      render();
+    } else {
+      showResult();
+    }
+  });
+
+  backBtn.addEventListener('click', () => {
+    if (resultArea.style.display === 'block') {
+      resultArea.style.display = 'none';
+      questionArea.style.display = 'block';
+      render();
+      return;
+    }
+    if (current > 0) {
+      current--;
+      render();
+    }
+  });
+
+  render();
+})();
+</script>
+
+</body>
+</html>
