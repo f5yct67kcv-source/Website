@@ -111,6 +111,20 @@ h1 .hl{color:var(--accent)}
 .o-btn{font-family:var(--mono);font-size:14px;font-weight:600;background:var(--accent);color:var(--bg);padding:14px 24px;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--accent);transition:background .15s,transform .15s}
 .o-btn:hover{background:var(--accent-dim);border-color:var(--accent-dim);transform:translateY(-2px)}
 
+/* WER DAHINTERSTEHT */
+.ueber{padding:104px 0;border-top:1px solid var(--border);scroll-margin-top:80px}
+.ueber-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:56px;align-items:center}
+@media(max-width:820px){.ueber-grid{grid-template-columns:1fr;gap:34px}}
+.portrait{aspect-ratio:4/5;background:#14100c;border:1px solid var(--border);position:relative;display:grid;place-items:center;overflow:hidden}
+.portrait::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(221,142,74,0.06) 1px,transparent 1px),linear-gradient(90deg,rgba(221,142,74,0.06) 1px,transparent 1px);background-size:30px 30px}
+.portrait .mk-c{position:absolute;top:14px;left:14px;width:14px;height:14px;border-top:1.5px solid var(--accent);border-left:1.5px solid var(--accent)}
+.portrait span{position:relative;font-family:var(--mono);font-size:12px;color:var(--text-faint);letter-spacing:.04em}
+.ueber .eb{font-family:var(--mono);font-size:12.5px;color:var(--accent);letter-spacing:.02em}
+.ueber .lead-name{font-family:var(--disp);font-weight:600;font-size:clamp(1.5rem,2.8vw,2.05rem);margin:16px 0 18px;color:var(--text)}
+.ueber-copy p{color:var(--text-muted);font-size:16px;line-height:1.6;margin-bottom:16px;max-width:560px}
+.ueber-note{margin-top:24px;font-family:var(--mono);font-size:12px;color:var(--text-faint);display:inline-flex;align-items:center;gap:9px}
+.ueber-note::before{content:"";width:6px;height:6px;background:var(--accent);flex:0 0 auto}
+
 /* RECHNER-CTA */
 .rcta{padding:92px 0;border-top:1px solid var(--border);background:#100b08}
 .rcta .inner{max-width:720px;margin:0 auto;text-align:center;padding:0 32px}
@@ -128,7 +142,7 @@ h1 .hl{color:var(--accent)}
 <header>
   <nav class="wrap">
     <div class="logo"><span class="mark">&lt;/&gt;</span>PLATZHALTER</div>
-    <div class="nav-links"><a href="#">angebot</a><a href="#">ablauf</a><a href="#">über mich</a></div>
+    <div class="nav-links"><a href="#">angebot</a><a href="#">ablauf</a><a href="#ueber">über mich</a></div>
     <a href="kostenrechner.html" class="nav-cta">kostenrechner</a>
   </nav>
 </header>
@@ -183,6 +197,17 @@ h1 .hl{color:var(--accent)}
   <div class="o-foot">
     <a href="kostenrechner.html" class="o-btn">Projekt einschätzen <span>&rarr;</span></a>
     <span class="note">Was davon zu dir passt, klären wir im Kostenrechner.</span>
+  </div>
+</div></section>
+
+<section class="ueber" id="ueber"><div class="wrap ueber-grid">
+  <div class="portrait"><span class="mk-c"></span><span>[ portrait folgt ]</span></div>
+  <div class="ueber-copy">
+    <span class="eb">// wer dahintersteht</span>
+    <p class="lead-name">Ich bin Adrian.</p>
+    <p>Ich entwickle jede Website selbst – vom ersten Konzept bis zum Launch. Du landest nicht bei einem Projektmanager und wirst auch nicht intern weitergereicht.</p>
+    <p>Ich arbeite bewusst mit wenigen Projekten gleichzeitig. So bleibt genug Zeit für saubere Lösungen, direkte Kommunikation und eine ehrliche Einschätzung dessen, was dein Unternehmen wirklich braucht.</p>
+    <div class="ueber-note">ein Ansprechpartner · kurze Wege · keine Agenturrunde</div>
   </div>
 </div></section>
 
