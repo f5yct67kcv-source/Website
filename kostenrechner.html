@@ -148,21 +148,17 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
       </div>
 
       <div id="resArea" class="res hidden">
-        <div id="resView">
-          <div class="est">Dein geschätzter Preisrahmen</div>
-          <div class="num" id="resNum">CHF —</div>
-          <div class="sum" id="resSum"></div>
-          <div id="resSpecial" style="display:none"></div>
-          <div class="note" id="resNote"></div>
-          <div class="res-cta">
-            <p>Passt der Rahmen für dich? Dann sende mir deine Anfrage.</p>
-            <button class="submit" id="toContact">Anfrage senden →</button>
-          </div>
-        </div>
-        <div id="contactView" class="hidden">
+        <div class="est">Dein geschätzter Preisrahmen</div>
+        <div class="num" id="resNum">CHF —</div>
+        <div class="sum" id="resSum"></div>
+        <div id="resSpecial" style="display:none"></div>
+        <div class="note" id="resNote"></div>
+        <div class="res-cta">
+          <p>Passt der Rahmen für dich? Dann sende mir deine Anfrage.</p>
           <div class="form-row">
             <input type="text" id="cName" placeholder="Name">
             <input type="email" id="cMail" placeholder="E-Mail">
+            <input type="tel" id="cTel" placeholder="Telefon (optional)">
             <textarea id="cMsg" placeholder="Kurze Bemerkung zum Projekt (optional)"></textarea>
           </div>
           <button class="submit" id="submitBtn">Projekt unverbindlich anfragen →</button>
@@ -404,12 +400,6 @@ nav.wrap{display:flex;align-items:center;justify-content:space-between;height:66
     else { showResult(); }
   });
   backBtn.addEventListener('click',()=>{ if(cur>0){ cur--; render(); } });
-
-  document.getElementById('toContact').addEventListener('click',function(){
-    document.getElementById('resView').classList.add('hidden');
-    document.getElementById('contactView').classList.remove('hidden');
-    document.getElementById('cName').focus();
-  });
 
   document.getElementById('submitBtn').addEventListener('click',function(){
     const name=document.getElementById('cName').value.trim();
