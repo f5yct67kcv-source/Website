@@ -84,6 +84,32 @@ h1 .hl{color:var(--accent)}
 .warum .stmt .end{display:block;margin-top:14px;color:var(--text-muted);font-size:.82em}
 .warum .sign{margin-top:34px;font-family:var(--mono);font-size:12.5px;color:var(--text-faint);display:flex;align-items:center;gap:10px}
 .warum .sign::before{content:"";width:22px;height:1px;background:var(--accent)}
+
+/* ANGEBOT */
+.angebot{padding:104px 0;border-top:1px solid var(--border)}
+.angebot .eb{font-family:var(--mono);font-size:12.5px;color:var(--accent);letter-spacing:.02em}
+.angebot h2{font-family:var(--disp);font-weight:600;font-size:clamp(1.7rem,3.2vw,2.4rem);line-height:1.14;letter-spacing:-.01em;margin:16px 0 46px;max-width:700px}
+.angebot h2 .hl{color:var(--accent)}
+.rows-o{border-top:1px solid var(--border)}
+.row-o{display:grid;grid-template-columns:52px 240px 1fr 28px;gap:26px;align-items:start;padding:28px 4px;border-bottom:1px solid var(--border);transition:background .18s}
+.row-o:hover{background:rgba(221,142,74,0.035)}
+.row-o .num{font-family:var(--mono);font-size:13px;color:var(--accent);padding-top:3px}
+.row-o h3{font-family:var(--disp);font-weight:600;font-size:19px;margin-bottom:7px;line-height:1.15}
+.row-o .for{font-family:var(--mono);font-size:11.5px;color:var(--text-faint);line-height:1.45}
+.row-o .desc{color:var(--text-muted);font-size:15px;line-height:1.5;padding-top:2px}
+.row-o .arw{font-family:var(--mono);color:var(--text-faint);justify-self:end;padding-top:2px;transition:color .18s,transform .18s}
+.row-o:hover .arw{color:var(--accent);transform:translateX(4px)}
+@media(max-width:820px){
+ .row-o{grid-template-columns:38px 1fr;gap:4px 16px}
+ .row-o .num{grid-row:1;grid-column:1}
+ .row-o .head{grid-row:1;grid-column:2}
+ .row-o .desc{grid-row:2;grid-column:2;padding-top:10px}
+ .row-o .arw{display:none}
+}
+.o-foot{margin-top:36px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.o-foot .note{font-family:var(--mono);font-size:12.5px;color:var(--text-faint)}
+.o-btn{font-family:var(--mono);font-size:14px;font-weight:600;background:var(--accent);color:var(--bg);padding:14px 24px;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--accent);transition:background .15s,transform .15s}
+.o-btn:hover{background:var(--accent-dim);border-color:var(--accent-dim);transform:translateY(-2px)}
 </style>
 </head>
 <body>
@@ -117,6 +143,35 @@ h1 .hl{color:var(--accent)}
   <span class="eb">// warum <b>[markenname]</b></span>
   <p class="stmt"><span class="hl">Kein Agenturapparat.</span> Keine fünf Meetings, kein Angebot über vierzehn Seiten. Hier kommen <span class="hl">Konzept, Design und Entwicklung aus einer Hand.</span> Du bekommst einen direkten Ansprechpartner, eine ehrliche Einschätzung und <span class="hl">genau die Website, die dein Unternehmen wirklich braucht.</span><span class="end">Unkompliziert, persönlich und ohne Baukasten-Abo im Kleingedruckten.</span></p>
   <div class="sign">ein Ansprechpartner · vom ersten Entwurf bis zum Launch</div>
+</div></section>
+
+<section class="angebot"><div class="wrap">
+  <span class="eb">// was ich baue</span>
+  <h2>Nicht jede Website braucht gleich viel.<br>Aber jede braucht einen <span class="hl">klaren Zweck</span>.</h2>
+  <div class="rows-o">
+    <div class="row-o">
+      <span class="num">01</span>
+      <div class="head"><h3>Landingpage</h3><div class="for">Für Selbstständige, neue Angebote oder klare Einzelthemen.</div></div>
+      <p class="desc">Eine fokussierte Seite, die dein Angebot verständlich erklärt und gezielt zu einer Anfrage führt.</p>
+      <span class="arw">&rarr;</span>
+    </div>
+    <div class="row-o">
+      <span class="num">02</span>
+      <div class="head"><h3>Firmenwebsite</h3><div class="for">Für kleine Unternehmen, die mehr als eine Startseite brauchen.</div></div>
+      <p class="desc">Mehrere sauber strukturierte Seiten für Leistungen, Unternehmen, Referenzen und Kontakt.</p>
+      <span class="arw">&rarr;</span>
+    </div>
+    <div class="row-o">
+      <span class="num">03</span>
+      <div class="head"><h3>Bestehende Website überarbeiten</h3><div class="for">Für Seiten, die technisch oder optisch in die Jahre gekommen sind.</div></div>
+      <p class="desc">Bestehende Inhalte prüfen, neu strukturieren und in einen modernen, klaren Auftritt überführen.</p>
+      <span class="arw">&rarr;</span>
+    </div>
+  </div>
+  <div class="o-foot">
+    <a href="#" class="o-btn">Projekt einschätzen <span>&rarr;</span></a>
+    <span class="note">Was davon zu dir passt, klären wir im Kostenrechner.</span>
+  </div>
 </div></section>
 
 <script>
