@@ -1,0 +1,4 @@
+# Skill-/Agent-Tooling (nicht Teil des Website-Projekts)
+.agents/
+.claude/
+skills-lock.json
